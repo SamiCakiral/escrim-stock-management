@@ -1,4 +1,4 @@
-package com.webapp;
+package com.webapp.repo;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

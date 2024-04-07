@@ -12,7 +12,7 @@
 		<li><a href="/escrimwebapp/Personnel">Personnel list </a></li> <!-- Page de présentation de chaque utilisateur -->
 		<li><a href="/escrimwebapp/Patient">Patient</a></li> <!-- Page pour tout les patients -->
 		<li><a href="/escrimwebapp/Inventaire">Inventaire</a></li> <!-- Page de présentation de chaque produit -->
-		<li><a href="/escrimwebapp/commande">Commande</a></li> <!-- Page pour une commande -->
+		<li><a href="/escrimwebapp/Commande">Commande</a></li> <!-- Page pour une commande -->
 		
 	</ul>	
 	

@@ -5,8 +5,8 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 
-import com.webapp.DAOManager;
 import com.webapp.mvc.model.Application;
+import com.webapp.repo.DAOManager;
 
 
 public class PatientServlet extends HttpServlet {

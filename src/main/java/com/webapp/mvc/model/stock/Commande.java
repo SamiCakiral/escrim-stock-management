@@ -1,7 +1,8 @@
 package com.webapp.mvc.model.stock;
 
-import com.webapp.mvc.model.medical.MaterielMedical;
 import java.util.Date;
+
+import com.webapp.mvc.model.materiel.MaterielMedical;
 
 
 public class Commande {
@@ -9,6 +10,13 @@ public class Commande {
     private Date dateCommande;
     private String etat;
     private MaterielMedical[] articles;
+
+    public Commande(int id, Date dateCommande, String etat, MaterielMedical[] articles) {
+        this.id = id;
+        this.dateCommande = dateCommande;
+        this.etat = etat;
+        this.articles = articles;
+    }
 
     public void ajouterArticle(MaterielMedical article) {
         // TODO: Implement ajouterArticle method

@@ -1,6 +1,7 @@
 package com.webapp.mvc.model.personne.personnel;
 
 public abstract class Personnel {
+    private static int idCounter = 0;
     private int id;
     private String name;
     private String titre;
@@ -14,8 +15,8 @@ public abstract class Personnel {
         return "";
     }
 
-    public Personnel(int id, String name, String titre, String departement) {
-        this.id = id;
+    public Personnel( String name, String titre, String departement) {
+        this.id = idCounter++;
         this.name = name;
         this.titre = titre;
         this.departement = departement;
@@ -53,4 +54,27 @@ public abstract class Personnel {
         this.departement = departement;
     }
 
+    public abstract void effectuerTache();
+
+
+    public String toHtmlTableRow() {
+        StringBuilder html = new StringBuilder();
+        html.append("<tr>");
+        html.append("<td id=\"").append(this.getId()).append("\"");
+        html.append(" class=\"").append(this.getClass().getSimpleName()).append("\">");
+        html.append(this.getId());
+        html.append("</td>");
+        html.append("<td name=\"").append(this.getName()).append("\">");
+        html.append(this.getName());
+        html.append("</td>");
+        html.append("<td titre=\"").append(this.getTitre()).append("\">");
+        html.append(this.getTitre());
+        html.append("</td>");
+        html.append("<td departement=\"").append(this.getDepartement()).append("\">");
+        html.append(this.getDepartement());
+        html.append("</td>");
+        html.append("</tr>");
+        return html.toString();
+    }
+    
 }

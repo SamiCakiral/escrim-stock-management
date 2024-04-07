@@ -5,6 +5,7 @@ import com.webapp.mvc.model.materiel.Traitement;
 import com.webapp.mvc.model.personne.personnel.PersonnelMedical;
 
 public class Patient {
+    private static int idCounter = 0;
     private int id;
     private String nom;
     private Traitement[] listeTraitements;
@@ -12,7 +13,15 @@ public class Patient {
     private PersonnelMedical medecinAttitre;
     private boolean etatUrgence;
 
-    
+    public Patient(String nom, Traitement[] listeTraitements, Equipement[] equipementsUtilises,
+            PersonnelMedical medecinAttitre, boolean etatUrgence) {
+        this.id = idCounter++;
+        this.nom = nom;
+        this.listeTraitements = listeTraitements;
+        this.equipementsUtilises = equipementsUtilises;
+        this.medecinAttitre = medecinAttitre;
+        this.etatUrgence = etatUrgence;
+    }
 
     public void attribuerMedecin(PersonnelMedical medecin) {
         this.medecinAttitre = medecin;

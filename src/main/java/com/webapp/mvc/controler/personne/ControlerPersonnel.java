@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class ControlerPersonnel {
 
-    @RequestMapping(value = "/personne/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/personnel/{id}", method = RequestMethod.GET)
     public String getPersonne(@PathVariable("id") int id, Model model) {
         // Ajoutez l'id de la personne comme un attribut du modèle
         model.addAttribute("id", id);

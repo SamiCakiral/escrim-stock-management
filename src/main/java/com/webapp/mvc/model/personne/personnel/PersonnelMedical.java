@@ -4,8 +4,8 @@ public class PersonnelMedical extends Personnel {
     
     private String specialite;
 
-    public PersonnelMedical(int id, String name, String titre, String departement, String specialite) {
-        super(id, name, titre, departement);
+    public PersonnelMedical(String name, String titre, String departement, String specialite) {
+        super(name, titre, departement);
         this.specialite = specialite;
     }
 
@@ -20,4 +20,10 @@ public class PersonnelMedical extends Personnel {
     public void setSpecialite(String specialite) {
         this.specialite = specialite;
     }
+
+
+    @Override
+    public void effectuerTache() {
+    }
+
 }

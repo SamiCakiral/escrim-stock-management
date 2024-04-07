@@ -62,11 +62,38 @@ public class PersonnelServlet extends HttpServlet {
         DAOManager dao = DAOManager.getInstance(); // dao setup mais pas utilisé
         Application app = Application.getInstance();
 
-        if (actionString.equals("")) {
-
+        if (actionString.equals("addPersonnel")) {
+            addPersonnel(request, response);
+        } else if (actionString.equals("deletePersonnel")) {
+            // deletePersonnel(request, response);
+        } else if (actionString.equals("editPersonnel")) {
+            // editPersonnel(request, response);
+        } else if (actionString.equals("deployerEquipe")) {
+            // deployerEquipe(request, response);
+        } else if (actionString.equals("verifierMateriel")) {
+            // verifierMateriel(request, response);
+        } else if (actionString.equals("verifierPersonnel")) {
+            // verifierPersonnel(request, response);
+        } else if (actionString.equals("intervenir")) {
+            // intervenir(request, response);
         }
         return ;
 
+        
+    }
+
+    void addPersonnel(HttpServletRequest request, HttpServletResponse response) {
+        
+        String name = request.getParameter("name");
+        String titre = request.getParameter("titre");
+        String metier = request.getParameter("metier");
+        String departement = request.getParameter("departement");
+        Application app = Application.getInstance();
+        if (metier.equals("medecin")) {
+            app.addMedecin(name, titre, metier, departement);
+        } else if (metier.equals("equipeSauvetage")) {
+            app.addMilitaire(name, titre, metier, departement);
+        }
         
     }
 }
