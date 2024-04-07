@@ -1,10 +1,12 @@
 com/webapp/mvc/model/materiel/Equipement.class
 com/webapp/mvc/model/materiel/Traitement.class
+com/webapp/mvc/model/personne/mission/mission.class
 com/webapp/mvc/model/materiel/MaterielMedical.class
 com/webapp/mvc/controler/personne/PatientServlet.class
 com/webapp/mvc/controler/materiel/ControlerMateriel.class
 com/webapp/mvc/controler/Stock/ControlerInventaire.class
 com/webapp/mvc/model/personne/personnel/PersonnelMedical.class
+com/webapp/mvc/model/personne/mission/EquipeSauvetage.class
 com/webapp/mvc/controler/personne/ControlerPatient.class
 com/webapp/mvc/model/stock/Commande.class
 com/webapp/mvc/controler/materiel/MaterielServlet.class
@@ -18,5 +20,5 @@ com/webapp/mvc/controler/personne/PersonnelServlet.class
 com/webapp/mvc/model/Application.class
 com/webapp/mvc/controler/ControlerMain.class
 com/webapp/mvc/model/materiel/Medicament.class
-com/webapp/mvc/model/personne/personnel/EquipeSauvetage.class
+com/webapp/mvc/model/personne/personnel/PersonnelMilitaire.class
 com/webapp/mvc/model/personne/personnel/Personnel.class

@@ -1,6 +1,7 @@
-package com.webapp.mvc.model.personne.personnel;
+package com.webapp.mvc.model.personne.mission;
 
 import com.webapp.mvc.model.materiel.MaterielMedical;
+import com.webapp.mvc.model.personne.personnel.Personnel;
 
 public class EquipeSauvetage extends Personnel {
     private String typeIntervention;

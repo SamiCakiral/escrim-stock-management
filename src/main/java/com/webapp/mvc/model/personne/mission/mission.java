@@ -1,5 +1,6 @@
 package com.webapp.mvc.model.personne.mission;
 
+import com.webapp.mvc.model.personne.mission.EquipeSauvetage;
 
 public class mission {
     private String typeMission;
@@ -33,7 +34,13 @@ public class mission {
         this.missionEnCours = false;
     }
 
+    public void attribuerEquipe(EquipeSauvetage equipe) {
+        this.equipeSauvetageAtitre = equipe;
+    }
 
+    public EquipeSauvetage getEquipeSauvetageAtitre() {
+        return equipeSauvetageAtitre;
+    }
 
     public String getTypeMission() {
         return typeMission;
