@@ -1,4 +1,4 @@
-package com.webapp.mvc.model.medical;
+package com.webapp.mvc.model.materiel;
 
 public class Equipement extends MaterielMedical {
     private String maintenanceSchedule;

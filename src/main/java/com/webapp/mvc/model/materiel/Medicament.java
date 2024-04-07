@@ -1,4 +1,4 @@
-package com.webapp.mvc.model.medical;
+package com.webapp.mvc.model.materiel;
 
 import java.util.Date;
 

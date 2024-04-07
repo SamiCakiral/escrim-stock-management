@@ -1,5 +1,5 @@
 package com.webapp.mvc.model.stock;
-import com.webapp.mvc.model.medical.MaterielMedical;
+import com.webapp.mvc.model.materiel.MaterielMedical;
 public class Stock {
     private int idMateriel;
     private int quantite;

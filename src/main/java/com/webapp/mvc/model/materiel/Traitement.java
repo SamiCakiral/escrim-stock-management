@@ -1,4 +1,4 @@
-package com.webapp.mvc.model.medical;
+package com.webapp.mvc.model.materiel;
 
 public class Traitement {
     private int id;

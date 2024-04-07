@@ -1,7 +1,7 @@
 package com.webapp.mvc.model.personne;
 
-import com.webapp.mvc.model.medical.Equipement;
-import com.webapp.mvc.model.medical.Traitement;
+import com.webapp.mvc.model.materiel.Equipement;
+import com.webapp.mvc.model.materiel.Traitement;
 import com.webapp.mvc.model.personne.personnel.PersonnelMedical;
 
 public class Patient {
@@ -11,6 +11,8 @@ public class Patient {
     private Equipement[] equipementsUtilises;
     private PersonnelMedical medecinAttitre;
     private boolean etatUrgence;
+
+    
 
     public void attribuerMedecin(PersonnelMedical medecin) {
         this.medecinAttitre = medecin;
