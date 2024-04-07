@@ -1,0 +1,10 @@
+com/webapp/mvc/model/stock/Commande.class
+com/webapp/mvc/model/personne/Patient.class
+com/webapp/mvc/model/medical/Equipement.class
+com/webapp/mvc/model/medical/Traitement.class
+com/webapp/mvc/model/medical/MaterielMedical.class
+com/webapp/domain/Member.class
+com/webapp/mvc/model/medical/Medicament.class
+com/webapp/mvc/model/personne/personnel/EquipeSauvetage.class
+com/webapp/mvc/model/personne/personnel/PersonnelMedical.class
+com/webapp/mvc/model/personne/personnel/Personnel.class
