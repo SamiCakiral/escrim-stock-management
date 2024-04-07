@@ -1,4 +1,4 @@
-package com.webapp.mvc.controler;
+package com.webapp.mvc.controler.personne;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class ControlerPersonne {
+public class ControlerPersonnel {
 
     @RequestMapping(value = "/personne/{id}", method = RequestMethod.GET)
     public String getPersonne(@PathVariable("id") int id, Model model) {
@@ -16,7 +16,7 @@ public class ControlerPersonne {
 
         // Le nom de la vue est "personne", Spring va chercher une page JSP nommée
         // "personne.jsp"
-        return "personne";
+        return "personne/personnel";
     }
 
     // Ajoutez d'autres méthodes pour gérer d'autres requêtes HTTP si nécessaire

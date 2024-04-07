@@ -1,4 +1,4 @@
-package com.webapp.mvc.controler;
+package com.webapp.mvc.controler.materiel;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +16,7 @@ public class ControlerMateriel {
 
         // Le nom de la vue est "personne", Spring va chercher une page JSP nommée
         // "personne.jsp"
-        return "materiel";
+        return "materiel/materiel";
     }
 
     // Ajoutez d'autres méthodes pour gérer d'autres requêtes HTTP si nécessaire

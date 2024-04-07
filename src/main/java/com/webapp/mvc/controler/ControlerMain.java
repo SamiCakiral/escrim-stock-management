@@ -11,7 +11,7 @@ public class ControlerMain extends HttpServlet {
 
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger("ControlerMain"); // Initialisation
                                                                                                            // du Logger
-
+ 
     /**
      * Gère les requêtes HTTP GET.
      *
@@ -23,7 +23,7 @@ public class ControlerMain extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/client.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/index.jsp");
         dispatcher.forward(request, response);
 
     }

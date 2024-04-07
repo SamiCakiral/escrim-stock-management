@@ -1,20 +1,67 @@
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="4.0">
+  <!-- Pour le package Personne : -->
+
+  <!-- Pour chaque personne -->
   <servlet>
-      <servlet-name>PersonnelServlet</servlet-name>
-      <servlet-class>com.webapp.mvc.controler.PersonnelServlet</servlet-class>
+    <servlet-name>PersonnelServlet</servlet-name>
+    <servlet-class>com.webapp.mvc.controler.personnelServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-      <servlet-name>PersonnelServlet</servlet-name>
-      <url-pattern>/Personnel/*</url-pattern>
-  </servlet-mapping> 
+    <servlet-name>PersonnelServlet</servlet-name> 
+    <url-pattern>/Personnel/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- Pour le main du personnel -->
   <servlet>
-    <servlet-name>MaterielServlet</servlet-name>
-    <servlet-class>com.webapp.mvc.controler.MaterielServlet</servlet-class>
+    <servlet-name>ControlerPersonnel</servlet-name>
+    <servlet-class>com.webapp.mvc.controler.personne.ControlerPersonnel</servlet-class>
+  </servlet>
+  <servlet-mapping> 
+    <servlet-name>ControlerPersonnel</servlet-name>
+    <url-pattern>/Personnel</url-pattern>
+  </servlet-mapping>
+
+  <!-- Pour chaque Patient -->
+  <servlet>
+    <servlet-name>PatientServlet</servlet-name>
+    <servlet-class>com.webapp.mvc.controler.PatientServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PatientServlet</servlet-name>
+    <url-pattern>/Patient/*</url-pattern>
+  </servlet-mapping>
+  <!-- Pour le main du patient -->
+  <servlet>
+    <servlet-name>ControlerPatient</servlet-name>
+    <servlet-class>com.webapp.mvc.controler.personne.ControlerPatient</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ControlerPatient</servlet-name>
+    <url-pattern>/Patient</url-pattern>
+  </servlet-mapping>
+
+  <!-- Pour le main du materiel -->
+  <servlet>
+    <servlet-name>MaterielServlet</servlet-name> 
+    <servlet-class>com.webapp.mvc.controler.materiel.MaterielServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>MaterielServlet</servlet-name>
+    <url-pattern>/Materiel</url-pattern>
+  </servlet-mapping>
+
+  <!-- Pour chaque materiel -->
+  <servlet>
+    <servlet-name>ControlerMateriel</servlet-name>
+    <servlet-class>com.webapp.mvc.controler.materiel.ControlerMateriel</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ControlerMateriel</servlet-name>
     <url-pattern>/Materiel/*</url-pattern>
-  </servlet-mapping> 
+  </servlet-mapping>
+
+
+  <!-- Pour chaque stock -->
   <servlet>
     <servlet-name>StockServlet</servlet-name>
     <servlet-class>com.webapp.mvc.controler.StockServlet</servlet-class>
@@ -24,9 +71,30 @@
     <url-pattern>/Inventaire</url-pattern>
   </servlet-mapping>
 
+  <!-- Pour les commandes -->
+  <servlet>
+    <servlet-name>CommandeServlet</servlet-name>
+    <servlet-class>com.webapp.mvc.controler.CommandeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CommandeServlet</servlet-name>
+    <url-pattern>/Commande/*</url-pattern>
+  </servlet-mapping>
+  <!-- Pour le main des commandes -->
+  <servlet>
+    <servlet-name>ControlerCommande</servlet-name>
+    <servlet-class>com.webapp.mvc.controler.commande.ControlerCommande</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ControlerCommande</servlet-name>
+    <url-pattern>/Commande</url-pattern>
+  </servlet-mapping>
+  
+
+  <!-- Pour le main -->
   <servlet>
     <servlet-name>HomeServlet</servlet-name>
-    <servlet-class>com.webapp.mvc.controler.HomeServlet</servlet-class>
+    <servlet-class>com.webapp.mvc.controler.ControlerMain</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>HomeServlet</servlet-name>
