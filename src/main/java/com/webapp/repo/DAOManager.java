@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 
 public class DAOManager {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/mydatabase";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/mydatabase"; // A changer psk c'est un exemple
     private static final String DB_USERNAME = "username";
     private static final String DB_PASSWORD = "password";
 
@@ -26,12 +26,13 @@ public class DAOManager {
     }
     
     public DAOManager() {
-        try {
+        return;
+        /*try {
             connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
         } catch (SQLException e) {
             e.printStackTrace();
             // Handle connection error
-        }
+        }*/
     }
 
     public Connection getConnection() {

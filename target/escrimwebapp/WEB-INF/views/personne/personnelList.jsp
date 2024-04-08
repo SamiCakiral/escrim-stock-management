@@ -51,6 +51,7 @@
                                         <th>Titre</th>
                                         <th>Métier</th>
                                         <th>Département</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -59,13 +60,20 @@
                                         %>
                                         <tr>
                                             <%=personnel.toHtmlTableRow()%>
+                                                <td>
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                        data-target="#personnelModal" data-id="<%=personnel.getId()%>">
+                                                        Voir la fiche
+                                                    </button>
+                                                </td>
+
                                         </tr>
                                         <% } %>
                                 </tbody>
                             </table>
 
                             <!-- Bouton pour ajouter du personnel -->
-                            <button id="btnAddPersonnel" class="btn btn-primary mb-3">Ajouter un Membre du
+                            <button id="btnAddPersonnelShow" class="btn btn-primary mb-3">Ajouter un Membre du
                                 personnel</button>
 
                             <!-- Formulaire d'ajout de personnel -->
@@ -92,8 +100,14 @@
 
                                     <div class="form-group">
                                         <label for="departement">Département</label>
-                                        <select class="form-control" id="departement" name="departement"
-                                            required></select>
+                                        <select class="form-control" id="departement" name="departement" required>
+                                            <option value="chirugie">Chirurgie</option>
+                                            <option value="GP">GP</option>
+                                            <option value="Urgence">Urgentiste</option>
+                                            <option value="Pédiatrie">Pédiatrie</option>
+                                            <option value="Infirmier">Infirmier</option>
+                                        </select>
+
                                     </div>
 
                                     <button type="submit" class="btn btn-success">Ajouter un Membre du
@@ -101,12 +115,55 @@
                                 </form>
                             </div>
                         </div>
+                        <!-- Bouton pour ouvrir la boîte modale -->
+
+
+                        <!-- Boîte modale -->
+                        <div class="modal fade" id="personnelModal" tabindex="-1" role="dialog"
+                            aria-labelledby="personnelModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="personnelModalLabel">Fiche du personnel</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Le contenu de la fiche du personnel sera chargé ici -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Script pour charger la fiche du personnel -->
+                        <script>
+                            $(document).ready(function () {
+                                $('#personnelModal').on('show.bs.modal', function (event) {
+                                    var button = $(event.relatedTarget); // Bouton qui a déclenché la boîte modale
+                                    var id = button.data('id'); // Récupère l'ID du personnel
+
+                                    // Charge la fiche du personnel dans la boîte modale
+                                    $.get('personnel/' + id, function (data) {
+                                        $('.modal-body').html(data);
+                                    });
+                                });
+                            });
+                        </script>
                     </body>
                     <!-- Script pour gérer l'affichage du formulaire -->
                     <script>
                         $(document).ready(function () {
-                            $('#btnAddPersonnel').click(function () {
+                            $('#btnAddPersonnelShow').click(function () {
+                                var addPersonnelVisible = $('#addPersonnel').is(':visible');
+                                if (!addPersonnelVisible) {
+                                    $(this).text('Annuler');
+                                } else {
+                                    $(this).text('Ajouter un Membre du personnel');
+                                }
                                 $('#addPersonnel').slideToggle();
+                                $('#addPersonnel').Toggle();
+
                             });
                         });
                     </script>
@@ -122,7 +179,7 @@
 
                             if (metier === 'medical') {
                                 departement.innerHTML = `
-                        <option value="chirugie">Chirurgie</option>
+                        <option value="Chirurgie">Chirurgie</option>
                         <option value="GP">GP</option>
                         <option value="Urgence">Urgentiste</option>
                         <option value="Pédiatrie">Pédiatrie</option>
@@ -142,16 +199,23 @@
 
                         $("form").submit(function (event) {
                             event.preventDefault();
-                            var formData = $(this).serialize();
+                            var formData = {
+                                nom: $("#nom").val(),
+                                titre: $("#titre").val(),
+                                metier: $("#metier").val(),
+                                departement: $("#departement").val(),
+                                action: "addPersonnel"
+                            };
                             $.ajax({
-                                url: "addPersonnel",
+                                url: "",
                                 type: "POST",
                                 data: formData,
                                 success: function (response) {
                                     // Handle success response
+                                    location.reload();
                                 },
                                 error: function (xhr, status, error) {
-                                    // Handle error response
+                                    alert("Une erreur est survenue lors de l'ajout du personnel, veuillez réessayer.")
                                 }
                             });
                         });

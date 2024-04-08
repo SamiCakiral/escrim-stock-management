@@ -22,3 +22,4 @@ com/webapp/mvc/controler/ControlerMain.class
 com/webapp/mvc/model/materiel/Medicament.class
 com/webapp/mvc/model/personne/personnel/PersonnelMilitaire.class
 com/webapp/mvc/model/personne/personnel/Personnel.class
+com/webapp/config/AppConfig.class

@@ -84,15 +84,19 @@ public class PersonnelServlet extends HttpServlet {
 
     void addPersonnel(HttpServletRequest request, HttpServletResponse response) {
         
-        String name = request.getParameter("name");
+        String name = request.getParameter("nom");
         String titre = request.getParameter("titre");
         String metier = request.getParameter("metier");
         String departement = request.getParameter("departement");
         Application app = Application.getInstance();
-        if (metier.equals("medecin")) {
+        
+        log.debug("Adding personnel " + name + " " + titre + " " + metier + " " + departement);
+        if (metier.equals("medical")) {
             app.addMedecin(name, titre, metier, departement);
-        } else if (metier.equals("equipeSauvetage")) {
-            app.addMilitaire(name, titre, metier, departement);
+        } else if (metier.equals("militaire")) {
+            app.addMilitaire(name, titre, metier, departement); // Pour militiare Rang = departement
+        } else {
+            log.error("Metier inconnu lors de l'ajout de personnel");
         }
         
     }

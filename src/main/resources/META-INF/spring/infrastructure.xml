@@ -1,27 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <beans xmlns="http://www.springframework.org/schema/beans"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       	 xmlns:jee="http://www.springframework.org/schema/jee"
-       	 xmlns:tx="http://www.springframework.org/schema/tx"
-         xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-           http://www.springframework.org/schema/tx
-		   http://www.springframework.org/schema/tx/spring-tx.xsd
-		   http://www.springframework.org/schema/jee 
-		   http://www.springframework.org/schema/jee/spring-jee.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+           http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
-	<!-- JDNI name for EntityManagerFactory is defined in src/main/resources/META-INF/persistence.xml -->
-    <jee:jndi-lookup jndi-name="java:jboss/spring-quickstart/persistence" id="entityManagerFactory"
-                     expected-type="javax.persistence.EntityManagerFactory" />
 
-	<bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
-   		<property name="entityManagerFactory" ref="entityManagerFactory"/>
-	</bean>
-                     
-	<jee:jndi-lookup jndi-name="java:jboss/datasources/SpringQuickstartDS" id="dataSource" expected-type="javax.sql.DataSource"/>
+    <!-- Configuration de la DataSource -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.h2.Driver"/>
+        <property name="url" value="jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1"/>
+        <property name="username" value="sa"/>
+        <property name="password" value="sa"/>
+    </bean>
 
-    <tx:jta-transaction-manager />
+    <!-- Configuration de l'EntityManagerFactory -->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="com.webapp.domain"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+            </props>
+        </property>
+    </bean>
 
-	
+    <!-- Configuration du Transaction Manager -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <!-- Activation de la gestion des transactions basée sur les annotations -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- Activation du balayage des composants pour la détection des beans -->
+    <context:component-scan base-package="com.webapp" />
+
 </beans>

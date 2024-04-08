@@ -1,5 +1,12 @@
-<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="4.0">
-  <!-- Pour le package Personne : -->
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
+                             http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" 
+         version="4.0">
+
+  
 
   <!-- Pour le main du personnel -->
   <servlet>
@@ -7,19 +14,24 @@
     <servlet-class>com.webapp.mvc.controler.personne.PersonnelServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PersonnelServlet</servlet-name> 
-    <url-pattern>/Personnel</url-pattern>
-    
+    <servlet-name>PersonnelServlet</servlet-name>
+    <url-pattern>/personnel</url-pattern>
+
   </servlet-mapping>
 
   <!-- Pour chaque personne -->
   <servlet>
-    <servlet-name>ControlerPersonnel</servlet-name>
-    <servlet-class>com.webapp.mvc.controler.personne.ControlerPersonnel</servlet-class>
+    <servlet-name>dispatcher</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
   </servlet>
-  <servlet-mapping> 
-    <servlet-name>ControlerPersonnel</servlet-name>
-    <url-pattern>/Personnel/*</url-pattern>
+  <servlet-mapping>
+    <servlet-name>dispatcher</servlet-name>
+    <url-pattern>/</url-pattern>
   </servlet-mapping>
 
   <!-- Pour le main du patient -->
@@ -29,7 +41,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PatientServlet</servlet-name>
-    <url-pattern>/Patient</url-pattern>
+    <url-pattern>/patient</url-pattern>
   </servlet-mapping>
 
   <!-- Pour chaque Patient -->
@@ -39,17 +51,17 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ControlerPatient</servlet-name>
-    <url-pattern>/Patient/*</url-pattern>
+    <url-pattern>/patient/*</url-pattern>
   </servlet-mapping>
 
   <!-- Pour le main du materiel -->
   <servlet>
-    <servlet-name>MaterielServlet</servlet-name> 
+    <servlet-name>MaterielServlet</servlet-name>
     <servlet-class>com.webapp.mvc.controler.materiel.MaterielServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>MaterielServlet</servlet-name>
-    <url-pattern>/Materiel</url-pattern>
+    <url-pattern>/materiel</url-pattern>
   </servlet-mapping>
 
   <!-- Pour chaque materiel -->
@@ -59,7 +71,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ControlerMateriel</servlet-name>
-    <url-pattern>/Materiel/*</url-pattern>
+    <url-pattern>/materiel/*</url-pattern>
   </servlet-mapping>
 
 
@@ -70,7 +82,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>StockServlet</servlet-name>
-    <url-pattern>/Inventaire</url-pattern>
+    <url-pattern>/inventaire</url-pattern>
   </servlet-mapping>
 
   <!-- Pour le main des commandes -->
@@ -80,7 +92,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>CommandeServlet</servlet-name>
-    <url-pattern>/Commande</url-pattern>
+    <url-pattern>/commande</url-pattern>
   </servlet-mapping>
   <!-- Pour les commandes -->
   <servlet>
@@ -89,9 +101,9 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ControlerCommande</servlet-name>
-    <url-pattern>/Commande/*</url-pattern>
+    <url-pattern>/commande/*</url-pattern>
   </servlet-mapping>
-  
+
 
   <!-- Pour le main -->
   <servlet>
@@ -100,6 +112,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>HomeServlet</servlet-name>
-    <url-pattern>/</url-pattern>
+    <url-pattern>/home</url-pattern>
   </servlet-mapping>
 </web-app>
