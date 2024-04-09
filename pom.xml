@@ -13,33 +13,16 @@
 
     <properties>
         <!-- Version de Spring Framework -->
-        <spring-framework.version>5.3.33</spring-framework.version>
-    
+        <spring-framework.version>6.0.0</spring-framework.version>
+
         <!-- Autres versions de dépendances si nécessaire -->
-        <jackson.version>2.12.3</jackson.version>
-        <logback.version>1.2.3</logback.version>
-        <slf4j.version>1.7.30</slf4j.version>
+        <jackson.version>2.13.0</jackson.version>
+        <logback.version>1.2.10</logback.version>
+        <slf4j.version>1.7.32</slf4j.version>
+        <hibernate-validator.version>7.0.1.Final</hibernate-validator.version>
+        <hibernate.version>5.6.0.Final</hibernate.version>
+        <junit.version>5.7.0</junit.version>
     </properties>
-    
-
-    <dependencyManagement>
-
-        <dependencies>
-
-
-            <dependency>
-                <groupId>taglibs</groupId>
-                <artifactId>standard</artifactId>
-                <version>${version.standard.taglibs}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging</artifactId>
-                <version>${version.commons.logging}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
         <!-- Servlet API -->
@@ -49,119 +32,118 @@
             <version>5.0.0</version>
             <scope>provided</scope>
         </dependency>
-    
+
         <!-- Spring Framework -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>5.3.33</version>
+            <version>${spring-framework.version}</version>
         </dependency>
-    
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
-            <version>5.3.33</version>
+            <version>${spring-framework.version}</version>
         </dependency>
-    
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>5.3.33</version>
+            <version>${spring-framework.version}</version>
         </dependency>
-    
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
-            <version>5.3.33</version>
+            <version>${spring-framework.version}</version>
         </dependency>
-    
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>5.3.33</version>
+            <version>${spring-framework.version}</version>
         </dependency>
-    
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
-            <version>5.3.33</version>
+            <version>${spring-framework.version}</version>
         </dependency>
-    
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>5.3.33</version>
+            <version>${spring-framework.version}</version>
         </dependency>
-    
+
         <!-- JPA & Hibernate -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.4.32.Final</version>
+            <version>${hibernate.version}</version>
         </dependency>
-    
+
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
-            <version>2.2.3</version>
+            <version>3.0.0</version>
         </dependency>
-    
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>5.4.32.Final</version>
+            <version>${hibernate.version}</version>
         </dependency>
-    
+
         <!-- Bean Validation -->
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>6.1.7.Final</version>
+            <version>${hibernate-validator.version}</version>
         </dependency>
-    
+
         <!-- Testing -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>5.3.33</version>
+            <version>${spring-framework.version}</version>
             <scope>test</scope>
         </dependency>
-    
+
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-    
+
         <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.36</version>
+            <version>${slf4j.version}</version>
         </dependency>
-        
+
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.4</version>
+            <version>${logback.version}</version>
         </dependency>
-    
+
         <!-- Jackson for JSON -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.12.3</version>
+            <version>${jackson.version}</version>
         </dependency>
-
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
         </dependency>
         
-
     </dependencies>
+
     
 
     <build>

@@ -11,7 +11,7 @@
     <mvc:annotation-driven />
 
     <!-- Balayage des composants pour la détection des annotations @Controller -->
-    <context:component-scan base-package="com.webapp.mvc.controler" />
+    <context:component-scan base-package="com.webapp.mvc" />
 
     <!-- Configuration des vues JSP -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
