@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ page import="java.util.List" %>
-        <%@ page import="com.webapp.mvc.personne.personnel.*" %>
+        <%@ page import="com.webapp.mvc.<€ Modifier Ici pour le model Exemple personne.* pour avoir les personnes <€ " %>
             <%@ page import="com.webapp.mvc.Application" %>
 
                 <!DOCTYPE html>
                 <html>
 
                 <head>
+                    <!-- Ne pas toucher -->
                     <meta charset="UTF-8">
                     <title>Liste Du Personnel</title>
                     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -27,6 +28,7 @@
                 </head>
 
                 <body>
+                    <!-- Ne pas Changer (Sauf les liens a corriger ou a ajouté si y'en a des nouveaxu)-->
                     <!-- Sticky Header : Menu avec Navbar Bootstrap -->
                     <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
                         <div class="container">
@@ -58,7 +60,7 @@
 
                     <!-- Corps de la page -->
                     <div class="container mt-5">
-                        <h1 class="mb-4">Voici la liste du personnel</h1>
+                        <h1 class="mb-4">Voici la liste du <€A modifier pour une autre class <€</h1>
 
                         <!-- Champ de recherche -->
                         <input class="form-control mb-3" id="searchInput" type="text" placeholder="Rechercher...">
@@ -69,34 +71,36 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Nom</th>
-                                    <th>Titre</th>
-                                    <th>Métier</th>
-                                    <th>Affectation</th>
+                                    <€ Changer les colonnes pour les attributs de la classe, garder ID Et Actions au minimum <€
+                                        
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="tableBody">
+                                <<€ changer le nom de la classe je laisse le template pour l'appel du personnel pour l'exemple mais faite comme vous le voulez ici <€
                                 <% List<Personnel> personnelList = Application.getInstance().getPersonnelList();
                                     for (Personnel personnel : personnelList) {
                                     %>
                                     <tr>
-                                        <%=personnel.toHtmlTableRow()%> <!-- Pour ne pas surcharger le jsp -->
+                                        <%=personnel.toHtmlTableRow()%> <!-- Pour ne pas surcharger le jsp, regardez la fonciton poru comprendre, elle permet juste d'afficher l'entiereté de la ligne d'un coup -->
                                             <td>
                                                 <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                    data-target="#personnelModal" data-id="<%=personnel.getId()%>">
+                                                    data-target="#personnelModal" data-id="<%=personnel.getId()%>"> 
                                                     Voir la fiche
                                                 </button>
                                             </td>
 
                                     </tr>
                                     <% } %>
+                                    <<€ Jusqu'a ici Vous pouvez modifier pensez bien a modifier tout les appels de personnel et verifiez les méthodes<€
                             </tbody>
                         </table>
 
-                        <!-- Bouton pour ajouter du personnel -->
-                        <button id="btnAddPersonnelShow" class="btn btn-primary mb-3">Ajouter un Membre du
-                            personnel</button>
+                        <!-- Bouton pour ajouter une personne -->
+                        <button id="btnAddPersonnelShow" class="btn btn-primary mb-3">Ajouter un Membre du <€A modifier pour une autre class <€
+                            </button>
 
+                            <€ Changer le formulaire pour les attributs de la classe, j'en laisse deux pour que vous voyez comment ca marche <€
                         <!-- Formulaire d'ajout de personnel -->
                         <div id="addPersonnel" style="display:none;">
                             <form action="addPersonnel" method="post" class="mb-3">
@@ -110,35 +114,17 @@
                                     <input type="text" class="form-control" id="titre" name="titre" required>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="metier">Métier</label>
-                                    <select class="form-control" id="metier" name="metier" required
-                                        onchange="updateaffectationOptions()">
-                                        <option value="medical">Personnel Medical</option>
-                                        <option value="militaire">Militaire</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="affectation">Affectation</label>
-                                    <select class="form-control" id="affectation" name="affectation" required>
-                                        <option value="Chirugie">Chirurgie</option>
-                                        <option value="Généraliste">Medecin Généraliste</option>
-                                        <option value="Urgence">Urgentiste</option>
-                                        <option value="Pédiatrie">Pédiatrie</option>
-                                        <option value="Infirmier">Infirmier</option>
-                                    </select>
-
-                                </div>
+                                
 
                                 <button type="submit" class="btn btn-success">Ajouter un Membre du
                                     personnel</button>
+                                    <€ Jusqu'ici pour le formulaire<€
                             </form>
                         </div>
                     </div>
                     <!-- Bouton pour ouvrir la boîte modale -->
 
-
+                    <€ Ici c'est pour la boite modale, la boite qui s'affique quand vous appuyez sur le bouton voir fiche, changez juste les mots personnel par la class que vous voulez afficher (C'est uniquement de l'affichage, le code actif est en JS plus bas) <€
                     <!-- Boîte modale -->
                     <div class="modal fade" id="personnelModal" tabindex="-1" role="dialog"
                         aria-labelledby="personnelModalLabel" aria-hidden="true">
@@ -165,9 +151,10 @@
 
                 </body>
                 <!-- Script pour gérer l'affichage du formulaire & l'affichage dans la boite modale -->
+                <€ Vous devez modifier le lien pour la redirection vers la fiche de la classe que vous voulez afficher <€
                 <script>
                     function ouvrirFichePersonnel(id) {
-                        window.location.href = 'personnel/' + id;
+                        window.location.href = 'personnel/' + id; // Redirige vers la fiche du personnel
                     }
 
 
@@ -179,6 +166,8 @@
                             });
                         });
                         //$('.table').DataTable();
+
+                         <€Modifier ici pour le bouton pour la classe que vous voulez ajouter <€
                         $('#btnAddPersonnelShow').click(function () {
                             var addPersonnelVisible = $('#addPersonnel').is(':visible');
                             if (!addPersonnelVisible) {
@@ -191,6 +180,7 @@
 
                         });
                         // Script pour gérer l'affichage de la boîte modale
+                        // <€ Changer le lien pour la classe que vous voulez afficher <€
                         $('#personnelModal').on('show.bs.modal', function (event) {
                             var button = $(event.relatedTarget); // Bouton qui a déclenché la boîte modale
                             var id = button.data('id'); // Récupère l'ID du personnel
@@ -206,41 +196,8 @@
 
 
                 <script>
-                    function updateaffectationOptions() {
-                        var metier = document.getElementById('metier').value;
-                        var affectation = document.getElementById('affectation');
 
-                        // Effacer les options existantes
-                        affectation.innerHTML = '';
-
-                        if (metier === 'medical') {
-                            affectation.innerHTML = `
-                        <option value="Chirurgie">Chirurgie</option>
-                        <option value="GP">GP</option>
-                        <option value="Urgence">Urgentiste</option>
-                        <option value="Pédiatrie">Pédiatrie</option>
-                        <option value="Infirmier">Infirmier</option>
-                    `;
-                        } else if (metier === 'militaire') {
-                            affectation.innerHTML = `
-                            <option value="Sdt">Soldat (Sdt)</option>
-                            <option value="Cpl">Caporal (Cpl)</option>
-                            <option value="Sgt">Sergent (Sgt)</option>
-                            <option value="Adj">Adjudant (Adj)</option>
-                            <option value="Lt">Lieutenant (Lt)</option>
-                            <option value="Cpt">Capitaine (Cpt)</option>
-                            <option value="Cmdt">Commandant (Cmdt)</option>
-                            <option value="Col">Colonel (Col)</option>
-                            <option value="Gén">Général (Gén)</option>
-                    `;
-                        }
-                    }
-
-
-                </script>
-                <script>
-
-
+                    <€ Changer le formulaire en fonciton de la classe que vous voulez ajouter et des attributs que vous avez mis dans le form <€
                     $("form").submit(function (event) {
                         event.preventDefault();
                         var formData = {
