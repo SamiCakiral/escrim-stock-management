@@ -37,7 +37,7 @@
                             </button>
                             <div class="collapse navbar-collapse" id="navbarNav">
                                 <ul class="navbar-nav">
-                                    <li class="nav-item"><a class="nav-link" href="/escrimwebapp/">Accueil</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="/escrimwebapp/accueil">Accueil</a></li>
                                     <li class="nav-item"><a class="nav-link" href="/escrimwebapp/personnel">Liste du
                                             Personnel</a></li>
                                     <li class="nav-item"><a class="nav-link" href="/escrimwebapp/patient">Patient</a>

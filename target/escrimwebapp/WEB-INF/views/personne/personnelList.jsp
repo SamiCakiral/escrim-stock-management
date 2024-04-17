@@ -37,7 +37,7 @@
                             </button>
                             <div class="collapse navbar-collapse" id="navbarNav">
                                 <ul class="navbar-nav">
-                                    <li class="nav-item"><a class="nav-link" href="/escrimwebapp/">Accueil</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="/escrimwebapp/accueil">Accueil</a></li>
                                     <li class="nav-item"><a class="nav-link" href="/escrimwebapp/personnel">Liste du
                                             Personnel</a></li>
                                     <li class="nav-item"><a class="nav-link" href="/escrimwebapp/patient">Patient</a>
@@ -80,7 +80,7 @@
                                     for (Personnel personnel : personnelList) {
                                     %>
                                     <tr>
-                                        <%=personnel.toHtmlTableRow()%>
+                                        <%=personnel.toHtmlTableRow()%> <!-- Pour ne pas surcharger le jsp -->
                                             <td>
                                                 <button type="button" class="btn btn-primary" data-toggle="modal"
                                                     data-target="#personnelModal" data-id="<%=personnel.getId()%>">
