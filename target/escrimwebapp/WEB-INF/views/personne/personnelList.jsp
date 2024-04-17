@@ -69,7 +69,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Nom</th>
-                                    <th>Titre</th>
+                                    <th>Prenom</th>
                                     <th>Métier</th>
                                     <th>Affectation</th>
                                     <th>Actions</th>
@@ -101,13 +101,13 @@
                         <div id="addPersonnel" style="display:none;">
                             <form action="addPersonnel" method="post" class="mb-3">
                                 <div class="form-group">
-                                    <label for="nom">Nom</label>
-                                    <input type="text" class="form-control" id="nom" name="nom" required>
+                                    <label for="last_name">Nom</label>
+                                    <input type="text" class="form-control" id="last_name" name="last_name" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="titre">Titre</label>
-                                    <input type="text" class="form-control" id="titre" name="titre" required>
+                                    <label for="first_name">Prenom</label>
+                                    <input type="text" class="form-control" id="first_name" name="first_name" required>
                                 </div>
 
                                 <div class="form-group">
@@ -244,8 +244,8 @@
                     $("form").submit(function (event) {
                         event.preventDefault();
                         var formData = {
-                            nom: $("#nom").val(),
-                            titre: $("#titre").val(),
+                            last_name: $("#last_name").val(),
+                            first_name: $("#first_name").val(),
                             metier: $("#metier").val(),
                             affectation: $("#affectation").val(),
                             action: "addPersonnel"

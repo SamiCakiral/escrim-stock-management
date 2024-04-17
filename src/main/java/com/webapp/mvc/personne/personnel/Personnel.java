@@ -3,8 +3,8 @@ import java.awt.Image;
 public abstract class Personnel {
     private static int idCounter = 0;
     private int id;
-    private String name;
-    private String titre;
+    private String last_name;
+    private String first_name;
     private String affectation;
     private String metier;
 
@@ -22,10 +22,10 @@ public abstract class Personnel {
         return "";
     }
 
-    public Personnel(String name, String titre, String affectation, String metier) {
+    public Personnel(String last_name, String first_name, String affectation, String metier) {
         this.id = idCounter++;
-        this.name = name;
-        this.titre = titre;
+        this.last_name = last_name;
+        this.first_name = first_name;
         this.affectation = affectation;
         this.metier = metier;
 
@@ -46,20 +46,20 @@ public abstract class Personnel {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getLast_name() {
+        return last_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
-    public String getTitre() {
-        return titre;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setTitre(String titre) {
-        this.titre = titre;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
     }
 
     public String getAffectation() {
@@ -82,11 +82,11 @@ public abstract class Personnel {
         html.append(" class=\"").append(this.getClass().getSimpleName()).append("\">");
         html.append(this.getId());
         html.append("</td>");
-        html.append("<td name=\"").append(this.getName()).append("\">");
-        html.append(this.getName());
+        html.append("<td name=\"").append(this.getLast_name()).append("\">");
+        html.append(this.getLast_name());
         html.append("</td>");
-        html.append("<td titre=\"").append(this.getTitre()).append("\">");
-        html.append(this.getTitre());
+        html.append("<td titre=\"").append(this.getFirst_name()).append("\">");
+        html.append(this.getFirst_name());
         html.append("</td>");
         html.append("<td metier=\"").append(this.getMetier()).append("\">");
         html.append(this.getMetier());

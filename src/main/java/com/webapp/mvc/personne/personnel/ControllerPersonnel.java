@@ -52,17 +52,17 @@ public class ControllerPersonnel {
     }
 
     private void addPersonnel(HttpServletRequest request) {
-        String name = request.getParameter("nom");
-        String titre = request.getParameter("titre");
+        String last_name = request.getParameter("last_name");
+        String first_name = request.getParameter("first_name");
         String metier = request.getParameter("metier");
         String affectation = request.getParameter("affectation");
         
 
-        log.debug("Adding personnel " + name + " " + titre + " " + metier + " " + affectation);
+        log.debug("Adding personnel " + last_name + " " + first_name + " " + metier + " " + affectation);
         if (metier.equals("medical")) {
-            app.addMedecin(name, titre, affectation);
+            app.addMedecin(last_name, first_name, affectation);
         } else if (metier.equals("militaire")) {
-            app.addMilitaire(name, titre,affectation); // Pour militiare Rang = departement
+            app.addMilitaire(last_name, first_name,affectation); // Pour militiare Rang = departement
         } else {
             log.error("Metier inconnu lors de l'ajout de personnel");
         }

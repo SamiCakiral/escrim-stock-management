@@ -5,8 +5,8 @@ public class PersonnelMedical extends Personnel {
     private String specialite = "";
 
 
-    public PersonnelMedical(String name, String titre, String affectation) {
-        super(name, titre, affectation, "Médecin");
+    public PersonnelMedical(String last_name, String first_name, String affectation) {
+        super(last_name, first_name, affectation, "Médecin");
         
     }
 
