@@ -14,7 +14,7 @@ import com.webapp.mvc.Application;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping("/accueil")
+@RequestMapping("/home")
 public class ControllerAccueil {
     private static final Logger log = Logger.getLogger(ControllerAccueil.class);
 

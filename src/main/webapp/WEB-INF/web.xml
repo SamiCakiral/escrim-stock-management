@@ -31,13 +31,4 @@
     <url-pattern>/</url-pattern>
   </servlet-mapping>
 
-  <!-- Pour le main -->
-  <servlet>
-    <servlet-name>HomeServlet</servlet-name>
-    <servlet-class>com.webapp.mvc.controler.ControllerMain</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>HomeServlet</servlet-name>
-    <url-pattern>/home</url-pattern>
-  </servlet-mapping>
 </web-app>
