@@ -53,7 +53,11 @@ public abstract class MaterielMedical {
     }
 
     public String getNom() {
-        return nom;
+        return this.nom;
+    }
+
+    public String getNomComplet() {
+        return this.nom + " - " + this.id;
     }
 
     public void setNom(String nom) {

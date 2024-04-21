@@ -90,7 +90,7 @@
                     </td>
                     <td>
                         <button type="button" class="btn btn-primary" onclick="viewColiDetails('<%= coli.getId() %>')">
-                            Liste du materiels
+                            Liste du materiel
                         </button>
                         
                         
@@ -112,6 +112,36 @@
                     <label for="nom">Nom</label>
                     <input type="text" class="form-control" id="nom" name="nom" required>
                 </div>
+                <div class="form-group">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="options">Options</label>
+                        <select class="form-control" id="options" name="options">
+                            <option value="PAL">PAL</option>
+                            <option value="MAL">MAL</option>
+                            <option value="FAR">FAR</option>
+                            <option value="BAC">BAC</option>
+                        </select>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#materielModal">Ajouter Et Selectionner du Materiel</button>
+
+                    </div>
+                    <p> Materiaux dans le colis ajoutés </p>
+                    <table id="materialsTable" class="table" >
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Quantité</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Les lignes seront ajoutées par le script JavaScript -->
+                        </tbody>
+                    </table>
+                    
                 <!-- Button to submit the form -->
                 <button type="submit" class="btn btn-success">Ajouter un Coli</button>
             </form>
@@ -119,12 +149,12 @@
     </div>
 
     <!-- Modal box -->
-    <div class="modal fade" id="materielModal" tabindex="-1" role="dialog" aria-labelledby="materielModalLabel"
+    <div class="modal fade" id="ColiModal" tabindex="-1" role="dialog" aria-labelledby="materielModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="materielModalLabel">Fiche du Coli</h5>
+                    <h5 class="modal-title" id="materielModalLabel">Voici le contenu du Coli</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -139,6 +169,28 @@
         </div>
     </div>
 
+    <!-- Modale Bootstrap pour afficher la liste des matériel -->
+    <div class="modal fade" id="materielModal" tabindex="-1" role="dialog" aria-labelledby="materielModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document" style="width: 80% !important; "> <!-- modal-lg pour une modale plus grande si nécessaire -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="materielModalLabel">Ajouter et Selectionner le materiel pour le Colis</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Le contenu de materielList.jsp sera chargé ici -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="addToColisButton">Ajouter Sélection au Colis</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- JavaScript -->
     <script>
         function viewColiDetails(id) {
@@ -148,6 +200,17 @@
         }
 
         $(document).ready(function () {
+            $('#ColisModal').on('show.bs.modal', function (event) {
+                                var button = $(event.relatedTarget); // Bouton qui a déclenché la boîte modale
+                                var id = button.data('id'); // Récupère l'ID du materiel
+
+                                // Charge la fiche du materiel dans la boîte modale
+                                $.get('inventaire/coli/' + id, function (data) {
+                                    var buttonHtml = '<button type="button" class="btn btn-primary" onclick="viewColiDetails(' + id + ')">Ouvrir la fiche</button>';
+                                    $('.modal-body').html(data + buttonHtml);
+                                });
+                            
+                        });
             // Filter table rows based on search input
             $("#searchInput").on("keyup", function () {
                 var value = $(this).val().toLowerCase();
@@ -161,7 +224,7 @@
                 var addColiVisible = $('#addColi').is(':visible');
                 if (!addColiVisible) {
                     $(this).text('Annuler');
-                } else {
+                } else {x
                     $(this).text('Ajouter un Coli');
                 }
                 $('#addColi').slideToggle();
@@ -169,15 +232,61 @@
 
             // Handle showing Coli details in modal
             $('#materielModal').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget); // Button that triggered the modal
-                var id = button.data('id'); // Get the ID from data-id attribute
+                
+                var modalBody = $(this).find('.modal-body');
+                modalBody.load('/escrimwebapp/inventaire', function(response, status, xhr) {
+                    if (status == "error") {
+                        var msg = "Désolé mais il y a eu une erreur : ";
+                        modalBody.html(msg + xhr.status + " " + xhr.statusText);
+                    }
+                    var modalBody = $(this).find('.modal-body');
+                    
 
-                // Load Coli details into the modal body
-                $.get('inventaire/coli/' + id, function (data) {
-                    var buttonHtml = '<button type="button" class="btn btn-primary" onclick="ouvrirFicheMateriel(' + id + ')">Ouvrir la fiche</button>';
-                    $('.modal-body').html(data + buttonHtml);
-                });
+                    // Remove the navbar within the modal body if it exists
+                    modalBody.find('.navbar').remove();
+                
+                });    
             });
+
+            // Fonction pour ajouter au colis et fermer la modale
+            function addToColis() {
+                var selectedMaterials = [];
+                // Parcourir chaque checkbox sélectionnée
+                $('input[type="checkbox"]:checked').each(function() {
+                    
+                    var value = $(this).val();
+                    var id = value.split("_")[0];
+                    var name = value.split("_")[1];
+                    var qty = value.split("_")[2];
+                    selectedMaterials.push({id: id, name: name, quantity: qty});
+                });
+
+                // Fermer la modale
+                $('#materielModal').modal('toggle');
+
+                // Stocker les IDs en JS pour utilisation ultérieure
+                window.selectedMaterials = selectedMaterials;
+
+                // Afficher les matériaux sélectionnés dans un tableau sur la page principale
+                updateMaterialsTable(selectedMaterials);
+            }
+
+            // Fonction pour mettre à jour le tableau des matériaux sur la page principale
+            function updateMaterialsTable(materials) {
+                var tableBody = $('#materialsTable tbody');
+                tableBody.empty(); // Vider les entrées existantes
+                materials.forEach(function(material) {
+                    var row = '<tr>' +
+                                '<td>' + material.id + '</td>' +
+                                '<td>' + material.name + '</td>' +
+                                '<td>' + material.quantity + '</td>' +
+                            '</tr>';
+                    tableBody.append(row);
+                });
+            }
+
+            // Attacher la fonction addToColis au bouton ou à l'événement approprié
+            $('#addToColisButton').click(addToColis);
             
         });
     </script>

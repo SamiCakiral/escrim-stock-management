@@ -111,7 +111,8 @@
                                                     data-target="#materielModal" data-id="<%=materiel.getId()%>">
                                                 Voir la fiche
                                             </button>
-                                        </td>
+                                            <input type="checkbox" name="materielSelected" value="<%= materiel.getId() %>_<%= materiel.getNom() %>_<%= materiel.getQuantiteEnStock() %>">
+                                        </td> <!-- jsp pk mais getNom ne marche pas ici... -->
                                     </tr>
                                 <% 
                                 } 
@@ -120,8 +121,8 @@
                         </table>
 
                         <!-- Bouton pour ajouter du materiel -->
-                        <button id="btnAddMaterielShow" class="btn btn-primary mb-3">Ajouter un Membre du
-                            materiel</button>
+                        <button id="btnAddMaterielShow" class="btn btn-primary mb-3">Ajouter un 
+                            materiel médical</button>
 
 
                         <!-- Formulaire d'ajout de materiel -->
@@ -143,6 +144,10 @@
                                     <label for="fournisseur">Fournisseur</label>
                                     <input type="text" class="form-control" id="fournisseur" name="fournisseur">
                                 </div>
+                                <div class="form-group">
+                                    <label for="poids">Poids</label>
+                                    <input type="number" class="form-control" id="poids" name="poids">
+                                </div>
                                 <!-- Additional input fields for other properties of MaterielMedical -->
                                 <div class="form-group">
                                     <label for="dateExpiration">Date d'expiration</label>
@@ -158,7 +163,7 @@
 
                                 <div class="form-group">
                                     <label for="Colis">Coli</label>
-                                    <select class="form-control" id="Colis" name="Colis" required>
+                                    <select class="form-control" id="Colis" name="Colis"> <!-- Not Requiered parce que on peut avoir pas de coli au début, ou juste créé l'objet puis l'assigner a un colis -->
                                         <% 
                                         List<Coli> coliList = Application.getInstance().getColiList();
                                         for (Coli coli : coliList) {
@@ -168,6 +173,7 @@
                                         } 
                                         %>
                                     </select>
+                                    <!--TODO: Faire l'update pour ajouter un matériau dans un colis depuis cette page-->
                                 </div>
                                 
                                 
@@ -240,7 +246,10 @@
                     </script>
 
                     <script>
+                        
+                        
                         $("form").submit(function (event) {
+                            var ColisString = $("#Colis").val() || "NA";
                             event.preventDefault();
                             var formData = {
                                 nom: $("#nom").val(),
@@ -248,18 +257,36 @@
                                 description: $("#description").val(),
                                 fournisseur: $("#fournisseur").val(),
                                 dateExpiration: $("#dateExpiration").val(),
+                                poids: $("#poids").val(),
                                 Types: $("#Types").val(),
-                                Colis: $("#Colis").val(),
+                                Colis: ColisString,
                                 action: "addMateriel"
                             };
                             $.ajax({
                                 url: "",
                                 type: "POST",
                                 data: formData,
-                                success: function (response) {
-                                    // Handle success response
+                                success: function(response) { // Si on est dans la modale on reload la modale, sinon on reload la page
+                                // Vérifier si la modale est visible
+                                if ($('#materielModal').hasClass('show')) {
+                                    // La modale est visible, recharger son contenu depuis l'URL spécifiée
+                                    var modalBody = $('#materielModal .modal-body');
+                                    modalBody.load('/escrimwebapp/inventaire', function(loadResponse, status, xhr) {
+                                        if (status == "error") {
+                                            // Gestion des erreurs lors du chargement du contenu
+                                            var errorMsg = "Désolé mais il y a eu une erreur : " + xhr.status + " " + xhr.statusText;
+                                            modalBody.html(errorMsg);
+                                        } else {
+                                            // Vous pouvez ici gérer d'autres aspects post-chargement si nécessaire
+                                            // Par exemple, initialiser des scripts ou des plugins spécifiques au contenu chargé
+                                        }
+                                    });
+                                } else {
+                                    // La modale n'est pas visible, recharger la page
                                     location.reload();
-                                },
+                                }
+                            },
+
                                 error: function (xhr, status, error) {
                                     alert("An error occurred while adding the material, please try again.");
                                 }

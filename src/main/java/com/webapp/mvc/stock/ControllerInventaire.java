@@ -56,6 +56,17 @@ public class ControllerInventaire {
         }
         // Add other actions here
     }
+
+    private int getColiIdFromName(String ColisName){
+        coliList = app.getColiList();
+        for(Coli coli : coliList){
+            if(coli.getNom().equals(ColisName)){
+                return coli.getId();
+            }
+        }
+        return -1;
+    }
+
  //MARK: Add Materiel
     private void addItemToInventory(HttpServletRequest request) {
         // Retrieve parameters from request
@@ -63,7 +74,9 @@ public class ControllerInventaire {
         int quantiteEnStock = Integer.parseInt(request.getParameter("quantiteEnStock"));
         String description = request.getParameter("description");
         String fournisseur = request.getParameter("fournisseur");
-        int ColiId = Integer.parseInt(request.getParameter("Colis")); // On récupère l'id du coli
+        String ColisName = request.getParameter("Colis");
+        
+        int ColiId =getColiIdFromName(ColisName); // get the coli id from the name of the coli
         double poids = Double.parseDouble(request.getParameter("poids"));
 
         String dateExpirationStr = request.getParameter("dateExpiration");
@@ -140,7 +153,10 @@ public class ControllerInventaire {
         // Implement action logic here
         if ("addColi".equals(request.getParameter("action"))) {
             addColi(request);
-        } else {
+        } else if ("addMateriel".equals(request.getParameter("action"))) {
+            addItemToInventory(request);
+        }
+        else {
             log.error("Unknown action");
         }
         // Add other actions here
@@ -165,7 +181,7 @@ public class ControllerInventaire {
 
         model.addAttribute("coli", coli);
 
-        return "stock/listeMateriel";
+        return "stock/coli";
     }
 
     // @GetMapping
