@@ -1,12 +1,14 @@
 package com.webapp.mvc.materiel;
 
+import java.util.Date;
+
 public class Equipement extends MaterielMedical {
     private String maintenanceSchedule;
     private String operationalStatus;
     
-    public Equipement(int id, String nom, int quantiteEnStock, String description, String fournisseur,
-            String maintenanceSchedule, String operationalStatus) {
-        super(id, nom, quantiteEnStock, description, fournisseur);
+    public Equipement(String nom, int quantiteEnStock, String description, String fournisseur, Date dateExpiration,
+            String maintenanceSchedule, String operationalStatus, String Coli) {
+        super(nom, quantiteEnStock, description, fournisseur, dateExpiration, Coli);
         this.maintenanceSchedule = maintenanceSchedule;
         this.operationalStatus = operationalStatus;
     }
@@ -38,5 +40,13 @@ public class Equipement extends MaterielMedical {
     public void setOperationalStatus(String operationalStatus) {
         this.operationalStatus = operationalStatus;
     }
+
+    // public Date getDateExpiration() {
+    //     return dateExpiration;
+    // }
+
+    // public void setDateExpiration(Date dateExpiration) {
+    //     this.dateExpiration = dateExpiration;
+    // }
 
 }

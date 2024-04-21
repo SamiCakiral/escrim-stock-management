@@ -2,6 +2,9 @@
     <%@ page import="java.util.List" %>
         <%@ page import="com.webapp.mvc.materiel.*" %>
             <%@ page import="com.webapp.mvc.Application" %>
+                <%@ page import="java.text.SimpleDateFormat" %>
+                    <%@ page import="java.text.ParseException" %>
+                        <%@ page import="com.webapp.mvc.stock.Coli" %>
 
                 <!DOCTYPE html>
                 <html>
@@ -30,13 +33,14 @@
                     <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
                         <div class="container">
                             <a class="navbar-brand" href="#">Liste du Materiel</a>
+
                             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
                             </button>
                             <div class="collapse navbar-collapse" id="navbarNav">
                                 <ul class="navbar-nav">
-                                    <li class="nav-item"><a class="nav-link" href="/escrimwebapp/">Accueil</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="/escrimwebapp/accueil">Accueil</a></li>
                                     <li class="nav-item"><a class="nav-link" href="/escrimwebapp/personnel">Liste du
                                             Personnel</a></li>
                                     <li class="nav-item"><a class="nav-link" href="/escrimwebapp/patient">Patient</a>
@@ -57,6 +61,7 @@
                     <!-- Corps de la page pour Matériels -->
                     <div class="container mt-5">
                         <h1 class="mb-4">Voici la liste du matériel</h1>
+                        <a class="nav-link"href="/escrimwebapp/inventaire/coli">Voir la liste du Coli</a>
 
                         <!-- Champ de recherche -->
                         <input class="form-control mb-3" id="searchInput" type="text" placeholder="Rechercher...">
@@ -67,31 +72,57 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Nom</th>
-                                    
+                                    <th>Quantité en Stock</th>
+                                    <th>Description</th>
+                                    <th>Fournisseur</th>
+                                    <th>Date d'Expiration</th>
+                                    <th>Types</th>
+                                    <th>Colis</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
+                            
                             <tbody id="tableBody">
-                                <% List<Materiel> materielList = Application.getInstance().getMaterielList();
-                                    for (Materiel materiel : materielList) {
+                                <% 
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                                List<MaterielMedical> materielList = Application.getInstance().getMaterielList();
+                                for (MaterielMedical materiel : materielList) {
                                     %>
                                     <tr>
-                                        <!--materiel.toHtmlTableRow() -->
-                                            <td>
-                                                <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                    data-target="#materielModal" data-id="<%=materiel.getId()%>">
-                                                    Voir la fiche
-                                                </button>
-                                            </td>
+                                        <td><%= materiel.getId() %></td>
+                                        <td><%= materiel.getNom() %></td>
+                                        <td><%= materiel.getQuantiteEnStock() %></td>
+                                        <td><%= materiel.getDescription() %></td>
+                                        <td><%= materiel.getFournisseur() %></td>
+                                        <td>
+                                            <% 
+                                            if (materiel.getDateExpiration() != null) {
+                                                out.print(dateFormat.format(materiel.getDateExpiration()));
+                                            } else {
+                                                out.print("N/A"); 
+                                            }
+                                            %>
+                                        </td>
+                                        <td><%= materiel.getType() %></td>
+                                        <td><%= materiel.getColi() %></td>
 
+                                        <td>
+                                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                    data-target="#materielModal" data-id="<%=materiel.getId()%>">
+                                                Voir la fiche
+                                            </button>
+                                        </td>
                                     </tr>
-                                    <% } %>
+                                <% 
+                                } 
+                                %>
                             </tbody>
                         </table>
 
                         <!-- Bouton pour ajouter du materiel -->
                         <button id="btnAddMaterielShow" class="btn btn-primary mb-3">Ajouter un Membre du
                             materiel</button>
+
 
                         <!-- Formulaire d'ajout de materiel -->
                         <div id="addMateriel" style="display:none;">
@@ -100,13 +131,51 @@
                                     <label for="nom">Nom</label>
                                     <input type="text" class="form-control" id="nom" name="nom" required>
                                 </div>
-
+                                <div class="form-group">
+                                    <label for="quantiteEnStock">Quantité en stock</label>
+                                    <input type="number" class="form-control" id="quantiteEnStock" name="quantiteEnStock" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fournisseur">Fournisseur</label>
+                                    <input type="text" class="form-control" id="fournisseur" name="fournisseur">
+                                </div>
+                                <!-- Additional input fields for other properties of MaterielMedical -->
+                                <div class="form-group">
+                                    <label for="dateExpiration">Date d'expiration</label>
+                                    <input type="date" class="form-control" id="dateExpiration" name="dateExpiration">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Types">Types</label>
+                                    <select class="form-control" id="Types" name="Types" required>
+                                        <option value="equipement">Equipement</option>
+                                        <option value="medicament">Medicament</option>
+                                    </select>
                                 </div>
 
-                                <button type="submit" class="btn btn-success">Ajouter un Membre du
-                                    materiel</button>
+                                <div class="form-group">
+                                    <label for="Colis">Coli</label>
+                                    <select class="form-control" id="Colis" name="Colis" required>
+                                        <% 
+                                        List<Coli> coliList = Application.getInstance().getColiList();
+                                        for (Coli coli : coliList) {
+                                            %>
+                                            <option value="<%= coli.getNom() %>"><%= coli.getNom() %></option>
+                                            <% 
+                                        } 
+                                        %>
+                                    </select>
+                                </div>
+                                
+                                
+                                <!-- Button to submit the form -->
+                                <button type="submit" class="btn btn-success">Ajouter un Membre du materiel</button>
                             </form>
                         </div>
+                        
                     </div>
 
                     <!-- Bouton pour ouvrir la boîte modale -->
@@ -170,15 +239,17 @@
                         });
                     </script>
 
-
-                
                     <script>
-
-
                         $("form").submit(function (event) {
                             event.preventDefault();
                             var formData = {
-                                
+                                nom: $("#nom").val(),
+                                quantiteEnStock: $("#quantiteEnStock").val(),
+                                description: $("#description").val(),
+                                fournisseur: $("#fournisseur").val(),
+                                dateExpiration: $("#dateExpiration").val(),
+                                Types: $("#Types").val(),
+                                Colis: $("#Colis").val(),
                                 action: "addMateriel"
                             };
                             $.ajax({
@@ -190,12 +261,12 @@
                                     location.reload();
                                 },
                                 error: function (xhr, status, error) {
-                                    alert("Une erreur est survenue lors de l'ajout du materiel, veuillez réessayer.")
+                                    alert("An error occurred while adding the material, please try again.");
                                 }
                             });
                         });
 
+
                     </script>
                 </body>
-
                 </html>

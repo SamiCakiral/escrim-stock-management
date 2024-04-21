@@ -1,24 +1,30 @@
 package com.webapp.mvc;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.webapp.mvc.personne.patient.Patient;
 import com.webapp.mvc.personne.personnel.*;
 import com.webapp.mvc.materiel.Equipement;
 import com.webapp.mvc.materiel.MaterielMedical;
+import com.webapp.mvc.materiel.Medicament;
 import com.webapp.mvc.materiel.Traitement;
+import com.webapp.mvc.stock.*;
 
 public class Application {
     private static Application instance;
     private ArrayList<Personnel> personnelList;
     private ArrayList<MaterielMedical> materielList;
     private ArrayList<Patient> patientList;
+    private ArrayList<Coli> coliList;
+
 
     private Application() {
         // private constructor to prevent instantiation
         personnelList = new ArrayList<>();
         materielList = new ArrayList<>();
         patientList = new ArrayList<>();
+        coliList = new ArrayList<>(); 
     }
 
     public static Application getInstance() {
@@ -52,6 +58,16 @@ public class Application {
         materielList.add(materiel);
     }
 
+    public void addEquipement(String nom, int quantiteEnStock, String description, String fournisseur, Date dateExpiration, String Coli){
+        Equipement eq = new Equipement(nom, quantiteEnStock, description, fournisseur, null, null, null, Coli);
+        addMateriel(eq);
+    }    
+
+    public void addMedicament(String nom, int quantiteEnStock, String description, String fournisseur, Date dateExpiration, String Coli){
+        Medicament md = new Medicament(nom, quantiteEnStock, description, fournisseur, dateExpiration, null, null, Coli);
+        addMateriel(md);
+    }
+
     private void addPatient(Patient patient) {
         patientList.add(patient);
     }
@@ -64,6 +80,20 @@ public class Application {
 
     public ArrayList<Personnel> getPersonnelList() {
         return personnelList;
+    }
+
+    public ArrayList<Coli> getColiList() {
+        return coliList;
+    }
+
+    public void addColi(Coli coli){
+        coliList.add(coli); 
+    }
+
+    public void addColi(String nom) {
+        Coli coli = new Coli(nom); 
+
+        addColi(coli);
     }
 
     public Patient getPatientById(int id) {
@@ -88,6 +118,15 @@ public class Application {
         System.out.println(app);
     }
 
+    public Coli getColiById(int id){
+        for(Coli coli : coliList){
+            if(coli.getId() == id){
+                return coli; 
+            }
+        }
+        return null; 
+    }
+    
     public Personnel getPersonnelById(int id) {
         for (Personnel personnel : personnelList) {
             if (personnel.getId() == id) {

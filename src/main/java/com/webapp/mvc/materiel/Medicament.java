@@ -7,10 +7,10 @@ public class Medicament extends MaterielMedical {
     private String indications;
     private String contreIndications;
 
-    public Medicament(int id, String nom, int quantiteEnStock, String description, String fournisseur,
-            Date dateExpiration, String indications, String contreIndications) {
-        super(id, nom, quantiteEnStock, description, fournisseur);
-        this.dateExpiration = dateExpiration;
+
+    public Medicament(String nom, int quantiteEnStock, String description, String fournisseur,
+            Date dateExpiration, String indications, String contreIndications, String Coli) {
+        super(nom, quantiteEnStock, description, fournisseur, dateExpiration, Coli);
         this.indications = indications;
         this.contreIndications = contreIndications;
     }
@@ -33,9 +33,9 @@ public class Medicament extends MaterielMedical {
     }
 
     // Setters
-    public void setDateExpiration(Date dateExpiration) {
-        this.dateExpiration = dateExpiration;
-    }
+    // public void setDateExpiration(Date dateExpiration) {
+    //     this.dateExpiration = dateExpiration;
+    // }
 
     public void setIndications(String indications) {
         this.indications = indications;
@@ -46,9 +46,9 @@ public class Medicament extends MaterielMedical {
     }
 
     // Getters
-    public Date getDateExpiration() {
-        return dateExpiration;
-    }
+    // public Date getDateExpiration() {
+    //     return dateExpiration;
+    // }
 
     public String getIndications() {
         return indications;
