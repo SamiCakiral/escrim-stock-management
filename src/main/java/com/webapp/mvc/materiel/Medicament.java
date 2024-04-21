@@ -7,10 +7,10 @@ public class Medicament extends MaterielMedical {
     private String indications;
     private String contreIndications;
 
-
+    
     public Medicament(String nom, int quantiteEnStock, String description, String fournisseur,
-            Date dateExpiration, String indications, String contreIndications, String Coli) {
-        super(nom, quantiteEnStock, description, fournisseur, dateExpiration, Coli);
+            Date dateExpiration, String indications, String contreIndications, int ColiId, double poids) {
+        super(nom, quantiteEnStock, description, fournisseur, dateExpiration, ColiId, poids);
         this.indications = indications;
         this.contreIndications = contreIndications;
     }

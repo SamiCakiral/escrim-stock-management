@@ -90,7 +90,7 @@
                     </td>
                     <td>
                         <button type="button" class="btn btn-primary" onclick="viewColiDetails('<%= coli.getId() %>')">
-                            Liste du materiels
+                            Liste du materiel
                         </button>
                         
                         
@@ -112,6 +112,21 @@
                     <label for="nom">Nom</label>
                     <input type="text" class="form-control" id="nom" name="nom" required>
                 </div>
+                <div class="form-group">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="options">Options</label>
+                        <select class="form-control" id="options" name="options">
+                            <option value="PAL">PAL</option>
+                            <option value="MAL">MAL</option>
+                            <option value="FAR">FAR</option>
+                            <option value="BAC">BAC</option>
+                        </select>
+                    
+                    </div>
                 <!-- Button to submit the form -->
                 <button type="submit" class="btn btn-success">Ajouter un Coli</button>
             </form>

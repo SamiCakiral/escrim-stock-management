@@ -31,6 +31,9 @@ public abstract class Personnel {
 
     }
 
+    public String getNom() {
+        return last_name + " " + first_name;
+    }
     public Image getPhoto() {
         return photo;
     }

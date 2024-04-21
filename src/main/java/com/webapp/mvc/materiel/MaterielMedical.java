@@ -2,24 +2,28 @@ package com.webapp.mvc.materiel;
 
 import java.util.Date; 
 
+
 public abstract class MaterielMedical {
     private int id;
     private String nom;
     private int quantiteEnStock;
     private String description;
     private String fournisseur;
+    private double poids;
     Date dateExpiration; 
-    private String Coli;
+    private int Coli;
+    
     private static int idCounter = 0;
 
-    public MaterielMedical(String nom, int quantiteEnStock, String description, String fournisseur, Date dateExpiration, String Coli) {
+    public MaterielMedical(String nom, int quantiteEnStock, String description, String fournisseur, Date dateExpiration, int ColiId, double poids) {
         this.id = idCounter++;
         this.nom = nom;
         this.quantiteEnStock = quantiteEnStock;
         this.description = description;
         this.fournisseur = fournisseur;
         this.dateExpiration = dateExpiration; 
-        this.Coli = Coli; 
+        this.poids = poids;
+        this.Coli = ColiId; 
     }
     
 
@@ -29,6 +33,14 @@ public abstract class MaterielMedical {
     
     public void retirerStock(int quantite) {
         quantiteEnStock -= quantite;
+    }
+
+    public double getPoids() {
+        return poids;
+    }
+
+    public void setPoids(double poids) {
+        this.poids = poids;
     }
 
 
@@ -72,11 +84,11 @@ public abstract class MaterielMedical {
         this.fournisseur = fournisseur;
     }
 
-    public String getColi() {
+    public int getColi() {
         return Coli;
     }
 
-    public void setColi(String Coli) {
+    public void setColi(int Coli) {
         this.Coli = Coli;
     }
 

@@ -1,16 +1,8 @@
 package com.webapp.mvc.stock;
 
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import java.io.IOException;
-
 import com.webapp.mvc.Application;
-import com.webapp.mvc.DAOManager;
-import com.webapp.mvc.materiel.*;
-
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,13 +13,9 @@ import java.util.Date;
 import java.text.ParseException;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.webapp.mvc.materiel.MaterielMedical; 
 import java.util.ArrayList;
+import java.util.Arrays;
 
-
-
-
-import com.webapp.mvc.Application;
 
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -68,14 +56,15 @@ public class ControllerInventaire {
         }
         // Add other actions here
     }
-
+ //MARK: Add Materiel
     private void addItemToInventory(HttpServletRequest request) {
         // Retrieve parameters from request
         String nom = request.getParameter("nom");
         int quantiteEnStock = Integer.parseInt(request.getParameter("quantiteEnStock"));
         String description = request.getParameter("description");
         String fournisseur = request.getParameter("fournisseur");
-        String Coli = request.getParameter("Colis"); 
+        int ColiId = Integer.parseInt(request.getParameter("Colis")); // On récupère l'id du coli
+        double poids = Double.parseDouble(request.getParameter("poids"));
 
         String dateExpirationStr = request.getParameter("dateExpiration");
         String Types = request.getParameter("Types");
@@ -99,9 +88,9 @@ public class ControllerInventaire {
         }
 
         if(Types.equals("equipement")){
-            app.addEquipement(nom, quantiteEnStock, description, fournisseur, dateExpiration, Coli);
+            app.addEquipement(nom, quantiteEnStock, description, fournisseur, dateExpiration, ColiId, poids);
         }else if(Types.equals("medicament")){
-            app.addMedicament(nom, quantiteEnStock, description, fournisseur, dateExpiration, Coli);
+            app.addMedicament(nom, quantiteEnStock, description, fournisseur, dateExpiration, ColiId, poids);
         }else{
             log.error("Types incconu lors de l'ajout de materiel");
         }
@@ -116,12 +105,12 @@ public class ControllerInventaire {
 
 
         for(Coli coli : coliList){
-            if(coli.getNom().equals(Coli)){
+            if(coli.getId()==(ColiId)){
 
                 if(Types.equals("equipement")){
-                    coli.addEquipement(nom, quantiteEnStock, description, fournisseur, dateExpiration, Coli);
+                    coli.addEquipement(nom, quantiteEnStock, description, fournisseur, dateExpiration, ColiId, poids);
                 }else if(Types.equals("medicament")){
-                    coli.addMedicament(nom, quantiteEnStock, description, fournisseur, dateExpiration, Coli);
+                    coli.addMedicament(nom, quantiteEnStock, description, fournisseur, dateExpiration, ColiId, poids);
                 }else{
                     log.error("Types incconu lors de l'ajout de materiel");
                 }
@@ -136,9 +125,37 @@ public class ControllerInventaire {
     }
 
     @PostMapping("/coli")
-    public String handleColiFormSubmission(@RequestParam(name = "nom") String nom) {
-        app.addColi(nom); // Assuming app is an instance of your Application class
-        return "redirect:/inventaire/coli"; // Redirect to the inventory page after adding the Coli
+    public String handleColiFormSubmission(@RequestParam(name = "action", required = false) String action,
+            HttpServletRequest request) {
+        if (action != null) {
+            log.info("Action " + action);
+            // Call the appropriate action method based on the value of 'action'
+            actionColi(request);
+        }
+        // Redirect to the inventory list after action processing
+        return "redirect:/inventaire/coli";
+    }
+
+    private void actionColi(HttpServletRequest request) {
+        // Implement action logic here
+        if ("addColi".equals(request.getParameter("action"))) {
+            addColi(request);
+        } else {
+            log.error("Unknown action");
+        }
+        // Add other actions here
+    }
+
+    private void addColi(HttpServletRequest request) {
+        // Retrieve parameters from request
+        String nom = request.getParameter("nom");
+        String type = request.getParameter("type");
+        
+        Integer[] materielIDs = Arrays.stream(request.getParameterValues("materielIDs"))
+                    .map(Integer::valueOf)
+                    .toArray(Integer[]::new);
+        Coli coli = new Coli(nom, type, materielIDs);
+        app.addColi(coli);
     }
 
     @GetMapping("/inventaire/coli/{id}")

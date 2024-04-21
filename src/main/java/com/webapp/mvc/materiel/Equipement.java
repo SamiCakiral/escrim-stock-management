@@ -7,21 +7,19 @@ public class Equipement extends MaterielMedical {
     private String operationalStatus;
     
     public Equipement(String nom, int quantiteEnStock, String description, String fournisseur, Date dateExpiration,
-            String maintenanceSchedule, String operationalStatus, String Coli) {
-        super(nom, quantiteEnStock, description, fournisseur, dateExpiration, Coli);
+            String maintenanceSchedule, String operationalStatus, int ColiId, double poids) {
+        super(nom, quantiteEnStock, description, fournisseur, dateExpiration, ColiId, poids);
         this.maintenanceSchedule = maintenanceSchedule;
         this.operationalStatus = operationalStatus;
     }
 
     public void maintenance() {
-        // Implement maintenance logic here
-        // For example:
+        
         System.out.println("Performing maintenance for equipment: " + this.getNom());
     }
 
     public void mettreAJourStatut() {
-        // Implement status update logic here
-        // For example:
+        
         this.operationalStatus = "Updated status";
     }
 

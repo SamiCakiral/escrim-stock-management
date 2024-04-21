@@ -10,8 +10,7 @@
     <img src="${personnel.getPhoto()}" alt="Personnel Image"> <!-- Si un membre du personnel possède une photo -->
     <h2>Détails du Personnel</h2>
     <p>ID: ${personnel.getId()}</p>
-    <p>Nom: ${personnel.getName()}</p>
-    <p>Titre: ${personnel.getTitre()}</p>
+    <p>Nom: ${personnel.getNom()}</p>
     <p>Métier: ${personnel.getMetier()}</p>
     <p>Département: ${personnel.getAffectation()}</p>
     

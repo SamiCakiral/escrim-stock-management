@@ -58,13 +58,13 @@ public class Application {
         materielList.add(materiel);
     }
 
-    public void addEquipement(String nom, int quantiteEnStock, String description, String fournisseur, Date dateExpiration, String Coli){
-        Equipement eq = new Equipement(nom, quantiteEnStock, description, fournisseur, null, null, null, Coli);
+    public void addEquipement(String nom, int quantiteEnStock, String description, String fournisseur, Date dateExpiration, int coliId, double poids) {
+        Equipement eq = new Equipement(nom, quantiteEnStock, description, fournisseur, null, null, null, coliId, poids);
         addMateriel(eq);
     }    
 
-    public void addMedicament(String nom, int quantiteEnStock, String description, String fournisseur, Date dateExpiration, String Coli){
-        Medicament md = new Medicament(nom, quantiteEnStock, description, fournisseur, dateExpiration, null, null, Coli);
+    public void addMedicament(String nom, int quantiteEnStock, String description, String fournisseur, Date dateExpiration, int coliId, double poids){
+        Medicament md = new Medicament(nom, quantiteEnStock, description, fournisseur, dateExpiration, null, null, coliId, poids);
         addMateriel(md);
     }
 
@@ -90,8 +90,8 @@ public class Application {
         coliList.add(coli); 
     }
 
-    public void addColi(String nom) {
-        Coli coli = new Coli(nom); 
+    public void addColi(String nom, String type, Integer [] materielMedicalIDs){ 
+        Coli coli = new Coli(nom, type, materielMedicalIDs); 
 
         addColi(coli);
     }
