@@ -20,7 +20,21 @@ public abstract class Personnel {
     private String metier;
 
     private Image photo;
-
+ /**
+     * Constructeur de la classe Personnel.
+     *
+     * @param last_name   Le nom de famille du personnel.
+     * @param first_name  Le prénom du personnel.
+     * @param affectation L'affectation du personnel.
+     * @param metier      Le métier du personnel.
+     */
+    public Personnel(String last_name, String first_name, String affectation, String metier) {
+        this.id = idCounter++;
+        this.last_name = last_name;
+        this.first_name = first_name;
+        this.affectation = affectation;
+        this.metier = metier;
+    }
     /**
      * Méthode abstraite pour effectuer une tâche spécifique.
      */
@@ -44,21 +58,7 @@ public abstract class Personnel {
         return "";
     }
 
-    /**
-     * Constructeur de la classe Personnel.
-     *
-     * @param last_name   Le nom de famille du personnel.
-     * @param first_name  Le prénom du personnel.
-     * @param affectation L'affectation du personnel.
-     * @param metier      Le métier du personnel.
-     */
-    public Personnel(String last_name, String first_name, String affectation, String metier) {
-        this.id = idCounter++;
-        this.last_name = last_name;
-        this.first_name = first_name;
-        this.affectation = affectation;
-        this.metier = metier;
-    }
+   
 
     /**
      * Obtient le nom complet du personnel.

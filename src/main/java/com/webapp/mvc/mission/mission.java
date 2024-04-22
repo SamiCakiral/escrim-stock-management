@@ -5,7 +5,7 @@ package com.webapp.mvc.mission;
  * 
  * @author CS
  */
-public class mission {
+public class Mission {
     private String typeMission;
     private String description;
     private String lieu;
@@ -27,7 +27,7 @@ public class mission {
      * @param missionEnCours           Indique si la mission est en cours.
      * @param equipeSauvetageAtitre    L'équipe de sauvetage attribuée à la mission.
      */
-    public mission(String typeMission, String description, String lieu, String dateDebut, String dateFin,
+    public Mission(String typeMission, String description, String lieu, String dateDebut, String dateFin,
             boolean missionEnCours, EquipeSauvetage equipeSauvetageAtitre) {
         this.id = idCounter++;
         this.typeMission = typeMission;
