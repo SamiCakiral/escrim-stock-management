@@ -19,7 +19,8 @@ public abstract class Personnel {
     private String affectation;
     private String metier;
 
-    private Image photo;
+    // private Image photo;
+    private String photo;
 
     /**
      * Méthode abstraite pour effectuer une tâche spécifique.
@@ -74,7 +75,7 @@ public abstract class Personnel {
      *
      * @return La photo du personnel.
      */
-    public Image getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
@@ -83,7 +84,7 @@ public abstract class Personnel {
      *
      * @param photo La photo à attribuer au personnel.
      */
-    public void setPhoto(Image photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 

@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ApplicationTest",
+            "request": "launch",
+            "mainClass": "com.webapp.ApplicationTest",
+            "projectName": "escrimwebapp"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"

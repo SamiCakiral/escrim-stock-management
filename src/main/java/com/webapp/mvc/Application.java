@@ -76,6 +76,7 @@ public class Application {
     public void addMedecin(String nom, String titre, String affectation) {
         PersonnelMedical medecin = new PersonnelMedical(nom, titre, affectation);
         addPersonnel(medecin);
+        DAOManager.getInstance().addPersonnelMedical(medecin);
     }
 
     /**
