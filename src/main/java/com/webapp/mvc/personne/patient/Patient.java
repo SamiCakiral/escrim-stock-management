@@ -3,21 +3,25 @@ package com.webapp.mvc.personne.patient;
 import com.webapp.mvc.materiel.Equipement;
 import com.webapp.mvc.materiel.Traitement;
 import com.webapp.mvc.personne.personnel.PersonnelMedical;
-
+import java.util.Date;
 
 public class Patient {
     private static int idCounter = 0;
     private int id;
     private String nom;
+    private String prenom;
+    private Date dob;
     private Traitement[] listeTraitements;
     private Equipement[] equipementsUtilises;
     private PersonnelMedical medecinAttitre;
     private boolean etatUrgence;
 
-    public Patient(String nom, Traitement[] listeTraitements, Equipement[] equipementsUtilises,
+    public Patient(String nom,String prenom, Date dob, Traitement[] listeTraitements, Equipement[] equipementsUtilises,
             PersonnelMedical medecinAttitre, boolean etatUrgence) {
         this.id = idCounter++;
         this.nom = nom;
+        this.prenom = prenom;
+        this.dob = dob;
         this.listeTraitements = listeTraitements;
         this.equipementsUtilises = equipementsUtilises;
         this.medecinAttitre = medecinAttitre;
@@ -40,8 +44,20 @@ public class Patient {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
     }
 
     public String getNom() {

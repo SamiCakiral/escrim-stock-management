@@ -13,6 +13,13 @@ import com.webapp.mvc.Application;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+/**
+ * Contrôleur pour la gestion du personnel.
+ * Cette classe gère les requêtes liées au personnel et les redirige vers les méthodes appropriées.
+ * Elle contient des méthodes pour afficher la liste du personnel, gérer les actions POST et afficher les détails d'un personnel spécifique.
+ *
+ * @author CS
+ */
 @Controller
 @RequestMapping("/personnel")
 public class ControllerPersonnel {
@@ -21,6 +28,13 @@ public class ControllerPersonnel {
 
     private final Application app = Application.getInstance();
 
+    /**
+     * Affiche la liste du personnel.
+     * Ajoute la liste du personnel au modèle et renvoie la vue "personne/personnelList".
+     *
+     * @param model Le modèle utilisé pour transmettre les données à la vue.
+     * @return Le nom de la vue à afficher.
+     */
     @GetMapping
     public String listPersonnel(Model model) {
         // Ajouter la liste du personnel au modèle
@@ -29,9 +43,17 @@ public class ControllerPersonnel {
         return "personne/personnelList";
     }
 
+    /**
+     * Gère les requêtes POST.
+     * Appelle la méthode d'action appropriée en fonction de la valeur de 'action' et redirige vers la liste du personnel après traitement de l'action.
+     *
+     * @param action  La valeur de 'action' provenant de la requête.
+     * @param request L'objet HttpServletRequest contenant les informations de la requête.
+     * @return Le nom de la vue à afficher après redirection.
+     */
     @PostMapping
     public String handlePostRequest(@RequestParam(name = "action", required = false) String action,
-            HttpServletRequest request) {
+                                    HttpServletRequest request) {
         if (action != null) {
             log.info("Action " + action);
             // Appeler la méthode action appropriée basée sur la valeur de 'action'
@@ -41,6 +63,12 @@ public class ControllerPersonnel {
         return "redirect:/personnel";
     }
 
+    /**
+     * Méthode d'action pour traiter les actions spécifiées dans la requête.
+     * Implémente la logique d'action en fonction de la valeur de 'action'.
+     *
+     * @param request L'objet HttpServletRequest contenant les informations de la requête.
+     */
     private void action(HttpServletRequest request) {
         // Implémentez la logique d'action ici
         if ("addPersonnel".equals(request.getParameter("action"))) {
@@ -51,23 +79,38 @@ public class ControllerPersonnel {
         // Ajoutez d'autres actions ici
     }
 
+    /**
+     * Ajoute un nouveau personnel.
+     * Récupère les informations du personnel à partir de la requête et les utilise pour ajouter le personnel à l'application.
+     *
+     * @param request L'objet HttpServletRequest contenant les informations de la requête.
+     */
     private void addPersonnel(HttpServletRequest request) {
         String last_name = request.getParameter("last_name");
         String first_name = request.getParameter("first_name");
         String metier = request.getParameter("metier");
         String affectation = request.getParameter("affectation");
-        
+
 
         log.debug("Adding personnel " + last_name + " " + first_name + " " + metier + " " + affectation);
         if (metier.equals("medical")) {
             app.addMedecin(last_name, first_name, affectation);
         } else if (metier.equals("militaire")) {
-            app.addMilitaire(last_name, first_name,affectation); // Pour militiare Rang = departement
+            app.addMilitaire(last_name, first_name, affectation); // Pour militaire Rang = departement
         } else {
             log.error("Metier inconnu lors de l'ajout de personnel");
         }
     }
 
+    /**
+     * Affiche les détails d'un personnel spécifique.
+     * Récupère l'objet Personnel correspondant à l'ID spécifié et l'ajoute au modèle.
+     * Renvoie la vue "personne/personnel".
+     *
+     * @param id     L'ID du personnel.
+     * @param model  Le modèle utilisé pour transmettre les données à la vue.
+     * @return Le nom de la vue à afficher.
+     */
     @GetMapping("/{id}")
     public String showPersonnelDetails(@PathVariable("id") int id, Model model) {
         // Obtenez l'objet Personnel correspondant à l'ID spécifié

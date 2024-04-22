@@ -20,247 +20,240 @@ import java.util.Arrays;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+/**
+ * Cette classe est le contrôleur pour la gestion de l'inventaire.
+ * Elle gère les requêtes liées à l'inventaire et effectue les actions correspondantes.
+ * 
+ * @author CS
+ */
 @Controller
 @RequestMapping("/inventaire")
 public class ControllerInventaire {
 
+    /**
+     * Logger pour le contrôleur de l'inventaire.
+     */
     private static final Logger log = Logger.getLogger(ControllerInventaire.class);
+
+    /**
+     * Instance de l'application.
+     */
     private final Application app = Application.getInstance();
+
+    /**
+     * Liste des colis.
+     */
     private ArrayList<Coli> coliList;
 
+    /**
+     * Affiche l'inventaire.
+     * 
+     * @param model Le modèle pour la vue.
+     * @return Le nom de la vue pour afficher l'inventaire.
+     */
     @GetMapping
     public String showInventaire(Model model) {
-        // Add the inventory list to the model
+        // Ajoute la liste de l'inventaire au modèle
         model.addAttribute("inventaireList", app.getMaterielList());
         return "materiel/materielList";
     }
 
+    /**
+     * Gère la requête POST.
+     * 
+     * @param action  L'action à effectuer.
+     * @param request La requête HTTP.
+     * @return Le nom de la vue pour rediriger vers l'inventaire.
+     */
     @PostMapping
     public String handlePostRequest(@RequestParam(name = "action", required = false) String action,
             HttpServletRequest request) {
         if (action != null) {
             log.info("Action " + action);
-            // Call the appropriate action method based on the value of 'action'
+            // Appelle la méthode d'action appropriée en fonction de la valeur de 'action'
             action(request);
         }
-        // Redirect to the inventory list after action processing
+        // Redirige vers la liste de l'inventaire après le traitement de l'action
         return "redirect:/inventaire";
     }
 
+    /**
+     * Effectue l'action correspondante à la requête.
+     * 
+     * @param request La requête HTTP.
+     */
     private void action(HttpServletRequest request) {
-        // Implement action logic here
+        // Implémente la logique de l'action ici
         if ("addMateriel".equals(request.getParameter("action"))) {
             addItemToInventory(request);
         } else {
-            log.error("Unknown action");
+            log.error("Action inconnue");
         }
-        // Add other actions here
+        // Ajoutez d'autres actions ici
     }
 
-    private int getColiIdFromName(String ColisName){
+    /**
+     * Obtient l'ID du coli à partir de son nom.
+     * 
+     * @param ColisName Le nom du coli.
+     * @return L'ID du coli, -1 si le coli n'est pas trouvé.
+     */
+    private int getColiIdFromName(String ColisName) {
         coliList = app.getColiList();
-        for(Coli coli : coliList){
-            if(coli.getNom().equals(ColisName)){
+        for (Coli coli : coliList) {
+            if (coli.getNom().equals(ColisName)) {
                 return coli.getId();
             }
         }
         return -1;
     }
 
- //MARK: Add Materiel
+    /**
+     * Ajoute un élément à l'inventaire.
+     * 
+     * @param request La requête HTTP.
+     */
     private void addItemToInventory(HttpServletRequest request) {
-        // Retrieve parameters from request
+        // Récupère les paramètres de la requête
         String nom = request.getParameter("nom");
         int quantiteEnStock = Integer.parseInt(request.getParameter("quantiteEnStock"));
         String description = request.getParameter("description");
         String fournisseur = request.getParameter("fournisseur");
         String ColisName = request.getParameter("Colis");
-        
-        int ColiId =getColiIdFromName(ColisName); // get the coli id from the name of the coli
+
+        int ColiId = getColiIdFromName(ColisName); // Obtient l'ID du coli à partir du nom du coli
         double poids = Double.parseDouble(request.getParameter("poids"));
 
         String dateExpirationStr = request.getParameter("dateExpiration");
         String Types = request.getParameter("Types");
-        // String Coli = "hello";
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         Date dateExpiration;
-        
+
         if (dateExpirationStr != null && !dateExpirationStr.isEmpty()) {
             try {
                 dateExpiration = dateFormat.parse(dateExpirationStr);
             } catch (ParseException e) {
-                e.printStackTrace(); // Handle parsing exception
-                // Set a default value or handle the error as appropriate
-                dateExpiration = new Date(); // Set a default date
+                e.printStackTrace(); // Gère l'exception de parsing
+                // Définir une valeur par défaut ou gérer l'erreur de manière appropriée
+                dateExpiration = new Date(); // Définir une date par défaut
             }
         } else {
-            // Handle case where dateExpirationStr is null or empty
+            // Gère le cas où dateExpirationStr est null ou vide
             dateExpiration = new Date();
         }
 
-        if(Types.equals("equipement")){
+        if (Types.equals("equipement")) {
             app.addEquipement(nom, quantiteEnStock, description, fournisseur, dateExpiration, ColiId, poids);
-        }else if(Types.equals("medicament")){
+        } else if (Types.equals("medicament")) {
             app.addMedicament(nom, quantiteEnStock, description, fournisseur, dateExpiration, ColiId, poids);
-        }else{
-            log.error("Types incconu lors de l'ajout de materiel");
+        } else {
+            log.error("Type inconnu lors de l'ajout de matériel");
         }
 
-        log.debug("Adding medicament " + nom + " " + quantiteEnStock + " " + description + " " + fournisseur);
+        log.debug("Ajout du médicament " + nom + " " + quantiteEnStock + " " + description + " " + fournisseur);
 
-        // Add item to inventory using Application instance
+        // Ajoute l'élément à l'inventaire en utilisant l'instance de l'application
         // app.addMateriel(medicament);
 
-        // check the name of the coli 
+        // Vérifie le nom du coli
         coliList = app.getColiList();
 
+        for (Coli coli : coliList) {
+            if (coli.getId() == (ColiId)) {
 
-        for(Coli coli : coliList){
-            if(coli.getId()==(ColiId)){
-
-                if(Types.equals("equipement")){
+                if (Types.equals("equipement")) {
                     coli.addEquipement(nom, quantiteEnStock, description, fournisseur, dateExpiration, ColiId, poids);
-                }else if(Types.equals("medicament")){
+                } else if (Types.equals("medicament")) {
                     coli.addMedicament(nom, quantiteEnStock, description, fournisseur, dateExpiration, ColiId, poids);
-                }else{
-                    log.error("Types incconu lors de l'ajout de materiel");
+                } else {
+                    log.error("Type inconnu lors de l'ajout de matériel");
                 }
             }
         }
     }
+
+    /**
+     * Affiche la liste des colis.
+     * 
+     * @param model Le modèle pour la vue.
+     * @return Le nom de la vue pour afficher la liste des colis.
+     */
     @GetMapping("/coli")
     public String showColi(Model model) {
-        model.addAttribute("inventaireList", app.getColiList()); 
+        model.addAttribute("inventaireList", app.getColiList());
 
-        return "stock/coliList"; 
+        return "stock/coliList";
     }
 
+    /**
+     * Gère la soumission du formulaire de colis.
+     * 
+     * @param action  L'action à effectuer.
+     * @param request La requête HTTP.
+     * @return Le nom de la vue pour rediriger vers la liste des colis.
+     */
     @PostMapping("/coli")
     public String handleColiFormSubmission(@RequestParam(name = "action", required = false) String action,
             HttpServletRequest request) {
         if (action != null) {
             log.info("Action " + action);
-            // Call the appropriate action method based on the value of 'action'
+            // Appelle la méthode d'action appropriée en fonction de la valeur de 'action'
             actionColi(request);
         }
-        // Redirect to the inventory list after action processing
+        // Redirige vers la liste des colis après le traitement de l'action
         return "redirect:/inventaire/coli";
     }
 
+    /**
+     * Effectue l'action correspondante à la requête de colis.
+     * 
+     * @param request La requête HTTP.
+     */
     private void actionColi(HttpServletRequest request) {
-        // Implement action logic here
+        // Implémente la logique de l'action ici
         if ("addColi".equals(request.getParameter("action"))) {
             addColi(request);
         } else if ("addMateriel".equals(request.getParameter("action"))) {
             addItemToInventory(request);
+        } else {
+            log.error("Action inconnue");
         }
-        else {
-            log.error("Unknown action");
-        }
-        // Add other actions here
+        // Ajoutez d'autres actions ici
     }
 
+    /**
+     * Ajoute un colis.
+     * 
+     * @param request La requête HTTP.
+     */
     private void addColi(HttpServletRequest request) {
-        // Retrieve parameters from request
+        // Récupère les paramètres de la requête
         String nom = request.getParameter("nom");
         String type = request.getParameter("type");
-        
+
         Integer[] materielIDs = Arrays.stream(request.getParameterValues("materielIDs"))
-                    .map(Integer::valueOf)
-                    .toArray(Integer[]::new);
+                .map(Integer::valueOf)
+                .toArray(Integer[]::new);
         Coli coli = new Coli(nom, type, materielIDs);
         app.addColi(coli);
     }
 
+    /**
+     * Affiche la liste du matériel d'un coli.
+     * 
+     * @param id     L'ID du coli.
+     * @param model  Le modèle pour la vue.
+     * @return Le nom de la vue pour afficher la liste du matériel d'un coli.
+     */
     @GetMapping("/inventaire/coli/{id}")
     public String listeMateriel(@PathVariable("id") int id, Model model) {
 
-        Coli coli = app.getColiById(id); 
+        Coli coli = app.getColiById(id);
 
         model.addAttribute("coli", coli);
 
         return "stock/coli";
     }
-
-    // @GetMapping
-    // public String showInventaire(Model model) {
-    //     // Add the inventory list to the model
-    //     model.addAttribute("inventaireList", app.getMaterielList());
-    //     return "materiel/materielList";
-    // }
-
-    // @GetMapping("/coli/{id}")
-    // public String getMethodName(@RequestParam String param) {
-    //     return new String();
-    // }
-
-    // @GetMapping("/materiel")
-    // public String getMethodName(@RequestParam String param) {
-    //     return new String();
-    // }
 }
-
-// public class ControllerInventaire extends HttpServlet {
-
-//     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger("ControlerMain"); // Initialisation
-//                                                                                                            // du Logger
- 
-//     /**
-//      * Gère les requêtes HTTP GET.
-//      *
-//      * @param request  l'objet HttpServletRequest qui contient les informations de la requête
-//      * @param response l'objet HttpServletResponse qui contient les informations de la réponse
-//      * @throws ServletException si le servlet rencontre des difficultés
-//      * @throws IOException      si une erreur d'E/S se produit
-//      */
-//     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-//             throws ServletException, IOException {
-
-//         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/inventaire.jsp");
-//         dispatcher.forward(request, response);
-
-//     }
-
-//     /**
-//      * Gère les requêtes HTTP POST.
-//      *
-//      * @param request  l'objet HttpServletRequest qui contient les informations de la requête
-//      * @param response l'objet HttpServletResponse qui contient les informations de la réponse
-//      * @throws ServletException si le servlet rencontre des difficultés
-//      * @throws IOException      si une erreur d'E/S se produit
-//      */
-//     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-//             throws ServletException, IOException {
-//         String actionString = request.getParameter("action");
-//         log.info("Action " + actionString);
-//         if (actionString != null) {
-//             action(request, response, actionString);
-//             doGet(request, response);
-//         } else {
-//             doGet(request, response);
-//         }
-
-//     }
-
-//     /**
-//      * Effectue une action en fonction de la chaîne d'action donnée.
-//      *
-//      * @param request       l'objet HttpServletRequest qui contient les informations de la requête
-//      * @param response      l'objet HttpServletResponse qui contient les informations de la réponse
-//      * @param actionString  la chaîne d'action spécifiée
-//      */
-//     private void action(HttpServletRequest request, HttpServletResponse response, String actionString) {
-//         DAOManager dao = DAOManager.getInstance(); // dao setup mais pas utilisé
-//         Application app = Application.getInstance();
-
-//         if (actionString.equals("")) {
-
-//         }
-//         return ;
-
-        
-//     }
-// }
- 
