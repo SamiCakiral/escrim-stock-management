@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.webapp.mvc.Application;
 
 import jakarta.servlet.http.HttpServletRequest;
-
+import com.webapp.mvc.DAOManager;
+import java.util.List;
 /**
  * Contrôleur pour la gestion du personnel.
  * Cette classe gère les requêtes liées au personnel et les redirige vers les méthodes appropriées.
@@ -27,7 +28,11 @@ public class ControllerPersonnel {
     private static final Logger log = Logger.getLogger(ControllerPersonnel.class);
 
     private final Application app = Application.getInstance();
+    private DAOPersonnel daoPersonnel;
 
+    public ControllerPersonnel() {
+        this.daoPersonnel = DAOManager.getInstance().getDAOPersonnel();
+    }
     /**
      * Affiche la liste du personnel.
      * Ajoute la liste du personnel au modèle et renvoie la vue "personne/personnelList".
@@ -38,7 +43,9 @@ public class ControllerPersonnel {
     @GetMapping
     public String listPersonnel(Model model) {
         // Ajouter la liste du personnel au modèle
-        model.addAttribute("personnelList", app.getPersonnelList());
+        List<Personnel> personnelList = daoPersonnel.findAllPersonnel();
+        
+        model.addAttribute("personnelList", personnelList);
 
         return "personne/personnelList";
     }
@@ -88,18 +95,31 @@ public class ControllerPersonnel {
     private void addPersonnel(HttpServletRequest request) {
         String last_name = request.getParameter("last_name");
         String first_name = request.getParameter("first_name");
-        String metier = request.getParameter("metier");
         String affectation = request.getParameter("affectation");
+        String metier = request.getParameter("metier");
+        Personnel personnel;
 
-
-        log.debug("Adding personnel " + last_name + " " + first_name + " " + metier + " " + affectation);
+        // Déterminer le type de personnel et créer l'objet approprié
         if (metier.equals("medical")) {
             app.addMedecin(last_name, first_name, affectation);
+            personnel = new PersonnelMedical(last_name, first_name, affectation);
+            
         } else if (metier.equals("militaire")) {
-            app.addMilitaire(last_name, first_name, affectation); // Pour militaire Rang = departement
+            app.addMilitaire(last_name, first_name, affectation);
+            personnel = new PersonnelMilitaire(last_name, first_name, affectation);
         } else {
-            log.error("Metier inconnu lors de l'ajout de personnel");
+            log.error("Métier inconnu lors de l'ajout de personnel");
+            return;
         }
+
+        boolean isSuccess = daoPersonnel.insertPersonnel(personnel);
+        if (isSuccess) {
+            log.info("Personnel added successfully");
+            
+        } else {
+            log.error("Failed to add personnel");
+        }
+        
     }
 
     /**
@@ -114,8 +134,7 @@ public class ControllerPersonnel {
     @GetMapping("/{id}")
     public String showPersonnelDetails(@PathVariable("id") int id, Model model) {
         // Obtenez l'objet Personnel correspondant à l'ID spécifié
-        Personnel personnel = app.getPersonnelById(id);
-
+        Personnel personnel = daoPersonnel.findPersonnelById(id);
         // Ajoutez l'objet Personnel au modèle
         model.addAttribute("personnel", personnel);
 

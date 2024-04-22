@@ -20,7 +20,8 @@ public abstract class Personnel {
     private String metier;
 
     private Image photo;
- /**
+    
+    /**
      * Constructeur de la classe Personnel.
      *
      * @param last_name   Le nom de famille du personnel.
@@ -58,7 +59,20 @@ public abstract class Personnel {
         return "";
     }
 
-   
+    public String getLastName() {
+        return last_name;
+    }
+    public String getFirstName() {
+        return first_name;
+    }
+
+    public void setLastName(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public void setFirstName(String first_name) {
+        this.first_name = first_name;
+    }
 
     /**
      * Obtient le nom complet du personnel.

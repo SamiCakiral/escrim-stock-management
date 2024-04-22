@@ -30,7 +30,7 @@ public class DAOStockImpl implements DAOStock {
     }
 
     @Override
-    public List<Coli> findAllColis() {
+    public ArrayList<Coli> findAllColis() {
         // Implémentation de la recherche de tous les colis
         return new ArrayList<>();
     }

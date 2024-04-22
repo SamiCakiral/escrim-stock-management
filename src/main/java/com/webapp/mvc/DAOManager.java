@@ -39,7 +39,13 @@ public class DAOManager {
     private DAOManager() {
         try {
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:resource:resources/database/database.db");
+        } catch (ClassNotFoundException e) {
+            log.error("SQLite JDBC driver not found: " + e.getMessage());
+            return;
+        }
+        try {
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection("jdbc:sqlite:/Users/sami/Documents/Cours/Cours Ingé 2A/GL/escrimwebapp/database.db");
             createDatabase();
             log.info("Opened database successfully");
         } catch (Exception e) {
@@ -95,11 +101,11 @@ public class DAOManager {
     }
 
     /**
-     * Fournit l'instance de DAOPersonne.
+     * Fournit l'instance de DAOPersonnel.
      * 
-     * @return instance de DAOPersonne
+     * @return instance de DAOPersonnel
      */
-    public DAOPersonnel getDAOPersonne() {
+    public DAOPersonnel getDAOPersonnel() {
         if (daoPersonne == null) {
             daoPersonne = new DAOPersonnelImpl(connection);
         }

@@ -30,7 +30,7 @@ public class DAOPatientImpl implements DAOPatient {
     }
 
     @Override
-    public List<Patient> findAllPatients() {
+    public ArrayList<Patient> findAllPatients() {
         // Implémentation de la recherche de tous les patients
         return new ArrayList<>();
     }

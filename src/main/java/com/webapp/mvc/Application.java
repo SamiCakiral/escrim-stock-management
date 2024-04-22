@@ -10,7 +10,8 @@ import com.webapp.mvc.materiel.MaterielMedical;
 import com.webapp.mvc.materiel.Medicament;
 import com.webapp.mvc.materiel.Traitement;
 import com.webapp.mvc.stock.*;
-
+import com.webapp.mvc.materiel.*;
+import com.webapp.mvc.personne.patient.*;
 /**
  * Cette classe représente l'application de gestion de l'unité médicale.
  * Elle contient les listes de personnel, de matériel médical, de patients et de colis.
@@ -38,6 +39,21 @@ public class Application {
         materielList = new ArrayList<>();
         patientList = new ArrayList<>();
         coliList = new ArrayList<>(); 
+
+        listeTraitements = new ArrayList<>();
+
+        DAOManager daoManager = DAOManager.getInstance();
+        DAOPersonnel daoPersonnel = daoManager.getDAOPersonnel();
+        DAOMateriel daoMateriel = daoManager.getDAOMateriel();
+        DAOPatient daoPatient = daoManager.getDAOPatient();
+        DAOStock daoStock = daoManager.getDAOStock();
+        
+        // Initialisation des listes de personnel, de matériel médical, de patients et de colis grace au DAO: 
+        personnelList = daoPersonnel.findAllPersonnel();
+        materielList = daoMateriel.findAllMateriel();
+        patientList = daoPatient.findAllPatients();
+        coliList = daoStock.findAllColis();
+        
     }
 
     /**
@@ -73,8 +89,8 @@ public class Application {
      * @param titre Le titre du médecin
      * @param affectation L'affectation du médecin
      */
-    public void addMedecin(String nom, String titre, String affectation) {
-        PersonnelMedical medecin = new PersonnelMedical(nom, titre, affectation);
+    public void addMedecin(String lastName,String firstName, String affectation) {
+        PersonnelMedical medecin = new PersonnelMedical(lastName,firstName, affectation);
         addPersonnel(medecin);
     }
 
@@ -85,8 +101,8 @@ public class Application {
      * @param titre Le titre du militaire
      * @param affectation L'affectation du militaire
      */
-    public void addMilitaire(String nom, String titre, String affectation) {
-        PersonnelMilitaire militaire = new PersonnelMilitaire(nom, titre, affectation);
+    public void addMilitaire(String lastName, String firstName, String affectation) {
+        PersonnelMilitaire militaire = new PersonnelMilitaire(lastName, firstName, affectation);
         addPersonnel(militaire);
     }
     
