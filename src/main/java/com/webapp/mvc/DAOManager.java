@@ -45,7 +45,7 @@ public class DAOManager {
         }
         try {
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:/Users/sami/Documents/Cours/Cours Ingé 2A/GL/escrimwebapp/database.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:/D:/Prive/Code/escrim-stock-management/database.db");
             createDatabase();
             log.info("Opened database successfully");
         } catch (Exception e) {
