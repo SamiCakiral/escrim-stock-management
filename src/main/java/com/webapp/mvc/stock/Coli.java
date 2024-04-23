@@ -20,7 +20,8 @@ import com.webapp.mvc.materiel.Medicament;
 
 /**
  * La classe Coli représente un colis qui contient du matériel médical.
- * Elle stocke des informations telles que l'ID du colis, le nom, le type, le poids, les dimensions et la liste des ID du matériel médical qu'il contient.
+ * Elle stocke des informations telles que l'ID du colis, le nom, le type, le
+ * poids, les dimensions et la liste des ID du matériel médical qu'il contient.
  * 
  * @author CS
  */
@@ -28,7 +29,7 @@ public class Coli {
     /**
      * Liste des ID du matériel médical contenu dans le colis.
      */
-    private ArrayList<Integer> listMaterielMedical;
+    private ArrayList<Integer> listMaterielMedical = new ArrayList<Integer>();
     /**
      * ID du colis.
      */
@@ -57,13 +58,14 @@ public class Coli {
     /**
      * Constructeur de la classe Coli.
      * 
-     * @param nom Le nom du colis.
-     * @param type Le type du colis.
+     * @param nom                Le nom du colis.
+     * @param type               Le type du colis.
      * @param materielMedicalIds Les ID du matériel médical contenu dans le colis.
      */
     public Coli(String nom, String type, Integer[] materielMedicalIds) {
 
-        this.listMaterielMedical.addAll(Arrays.asList(materielMedicalIds)); // Si on a une liste de int ca marche pas comme si on avait une liste de Integer
+        this.listMaterielMedical.addAll(Arrays.asList(materielMedicalIds)); // Si on a une liste de int ca marche pas
+                                                                            // comme si on avait une liste de Integer
         this.type = type;
         setDimensions(type); // SET les dimensions du coli en fonction du type
         this.id = idCounter++;
@@ -72,7 +74,8 @@ public class Coli {
     }
 
     /**
-     * Calcule le poids total du colis en prenant en compte le poids du matériel médical qu'il contient.
+     * Calcule le poids total du colis en prenant en compte le poids du matériel
+     * médical qu'il contient.
      * 
      * @return Le poids total du colis.
      */
@@ -95,7 +98,8 @@ public class Coli {
     public double poidsColis(String type) {
         switch (type) {
             case "PAL":
-                return 30; // Poids arbitraire a changer en fonction de la taille du colis et des valeurs rééels
+                return 30; // Poids arbitraire a changer en fonction de la taille du colis et des valeurs
+                           // rééels
             case "MAL":
                 return 20;
             case "FAR":
@@ -134,7 +138,8 @@ public class Coli {
         double[] dimensions = new double[3];
         switch (type) {
             case "PAL":
-                dimensions[0] = 1.2; // Dimensions arbitraires a changer en fonction de la taille du colis et des valeurs rééels
+                dimensions[0] = 1.2; // Dimensions arbitraires a changer en fonction de la taille du colis et des
+                                     // valeurs rééels
                 dimensions[1] = 1.2;
                 dimensions[2] = 1.2;
                 break;
@@ -182,6 +187,17 @@ public class Coli {
         this.nom = nom;
     }
 
+    public void setPoids(double poids) {
+        this.poids = poids;
+    }
+
+    public void setDimensions(double[] dimensions) {
+        this.dimensions = dimensions;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     // Getters
 
     /**
@@ -265,17 +281,18 @@ public class Coli {
     /**
      * Ajoute un équipement au colis.
      * 
-     * @param nom Le nom de l'équipement.
+     * @param nom             Le nom de l'équipement.
      * @param quantiteEnStock La quantité en stock de l'équipement.
-     * @param description La description de l'équipement.
-     * @param fournisseur Le fournisseur de l'équipement.
-     * @param dateExpiration La date d'expiration de l'équipement.
-     * @param ColiId L'ID du colis.
-     * @param poids Le poids de l'équipement.
+     * @param description     La description de l'équipement.
+     * @param fournisseur     Le fournisseur de l'équipement.
+     * @param dateExpiration  La date d'expiration de l'équipement.
+     * @param ColiId          L'ID du colis.
+     * @param poids           Le poids de l'équipement.
      */
     public void addEquipement(String nom, int quantiteEnStock, String description, String fournisseur,
             Date dateExpiration, int ColiId, double poids) {
-        Equipement eq = new Equipement(nom, quantiteEnStock, description, fournisseur, null, null, null, ColiId, poids);
+        Equipement eq = new Equipement(nom, quantiteEnStock, description, fournisseur, dateExpiration, ColiId, poids);
+
         int idEq = eq.getId();
         addMateriel(idEq);
     }
@@ -283,13 +300,13 @@ public class Coli {
     /**
      * Ajoute un médicament au colis.
      * 
-     * @param nom Le nom du médicament.
+     * @param nom             Le nom du médicament.
      * @param quantiteEnStock La quantité en stock du médicament.
-     * @param description La description du médicament.
-     * @param fournisseur Le fournisseur du médicament.
-     * @param dateExpiration La date d'expiration du médicament.
-     * @param ColiId L'ID du colis.
-     * @param poids Le poids du médicament.
+     * @param description     La description du médicament.
+     * @param fournisseur     Le fournisseur du médicament.
+     * @param dateExpiration  La date d'expiration du médicament.
+     * @param ColiId          L'ID du colis.
+     * @param poids           Le poids du médicament.
      */
     public void addMedicament(String nom, int quantiteEnStock, String description, String fournisseur,
             Date dateExpiration, int ColiId, double poids) {
@@ -299,4 +316,3 @@ public class Coli {
         addMateriel(idMd);
     }
 }
-    

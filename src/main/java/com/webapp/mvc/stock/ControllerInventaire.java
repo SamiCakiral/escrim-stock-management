@@ -16,8 +16,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
-
+import com.webapp.mvc.materiel.MaterielMedical;
+import com.webapp.mvc.materiel.DAOMateriel;
+import com.webapp.mvc.materiel.Equipement;
+import com.webapp.mvc.DAOManager;
+import com.webapp.mvc.stock.DAOStock;
+import com.webapp.mvc.materiel.Medicament;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -44,6 +48,15 @@ public class ControllerInventaire {
      * Liste des colis.
      */
     private ArrayList<Coli> coliList;
+
+    private static DAOStock daoStock;
+    private static DAOMateriel  daoMateriel;
+
+
+    public ControllerInventaire() {
+        daoStock = DAOManager.getInstance().getDAOStock(); // Initialise le DAOStock
+        daoMateriel = DAOManager.getInstance().getDAOMateriel(); // Initialise le DAOMateriel
+    }
 
     /**
      * Affiche l'inventaire.
@@ -146,8 +159,10 @@ public class ControllerInventaire {
 
         if (Types.equals("equipement")) {
             app.addEquipement(nom, quantiteEnStock, description, fournisseur, dateExpiration, ColiId, poids);
+            daoMateriel.insertMateriel(new Equipement(nom, quantiteEnStock, description, fournisseur, dateExpiration, ColiId, poids));
         } else if (Types.equals("medicament")) {
             app.addMedicament(nom, quantiteEnStock, description, fournisseur, dateExpiration, ColiId, poids);
+            daoMateriel.insertMateriel(new Medicament(nom, quantiteEnStock, description, fournisseur, dateExpiration,"None","None", ColiId, poids)); // pas implémenté pour les indications et contre-indications
         } else {
             log.error("Type inconnu lors de l'ajout de matériel");
         }
@@ -197,6 +212,7 @@ public class ControllerInventaire {
     @PostMapping("/coli")
     public String handleColiFormSubmission(@RequestParam(name = "action", required = false) String action,
             HttpServletRequest request) {
+        log.info("Post request received for coli");
         if (action != null) {
             log.info("Action " + action);
             // Appelle la méthode d'action appropriée en fonction de la valeur de 'action'
@@ -213,6 +229,7 @@ public class ControllerInventaire {
      */
     private void actionColi(HttpServletRequest request) {
         // Implémente la logique de l'action ici
+        log.debug("Action coli");
         if ("addColi".equals(request.getParameter("action"))) {
             addColi(request);
         } else if ("addMateriel".equals(request.getParameter("action"))) {
@@ -230,15 +247,18 @@ public class ControllerInventaire {
      */
     private void addColi(HttpServletRequest request) {
         // Récupère les paramètres de la requête
+        log.debug("Ajout d'un colis" + request.getParameter("nom") + request.getParameter("type") + request.getParameterValues("materielIDs"));
         String nom = request.getParameter("nom");
-        String type = request.getParameter("type");
-
-        Integer[] materielIDs = Arrays.stream(request.getParameterValues("materielIDs"))
+        String type = request.getParameter("type");  // Assurez-vous que ce paramètre est envoyé par le formulaire
+        Integer[] materielIDs = Arrays.stream(request.getParameterValues("materielIDs"))  // Ce paramètre doit être envoyé par le formulaire
                 .map(Integer::valueOf)
                 .toArray(Integer[]::new);
+                
         Coli coli = new Coli(nom, type, materielIDs);
         app.addColi(coli);
+        daoStock.insertColi(coli);
     }
+    
 
     /**
      * Affiche la liste du matériel d'un coli.

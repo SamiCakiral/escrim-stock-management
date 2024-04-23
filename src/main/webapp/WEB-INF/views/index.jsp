@@ -8,7 +8,7 @@
 	<h1>Page menu</h1>
 	<p> Faire un menu pour expliquer tout avec menu deroulant et tt. Page de garde pour le projet, explication + lien vers les autres pages, pour maillage</p>
 	<ul>
-		<li><a href="/escrimwebapp/accueil">Home</a></li> <!-- Page de présentation du projet (ici) -->
+		<li><a href="/escrimwebapp/home">Home</a></li> <!-- Page de présentation du projet (ici) -->
 		<li><a href="/escrimwebapp/personnel">Personnel list </a></li> <!-- Page de présentation de chaque utilisateur -->
 		<li><a href="/escrimwebapp/patient">Patient</a></li> <!-- Page pour tout les patients -->
 		<li><a href="/escrimwebapp/inventaire">Inventaire</a></li> <!-- Page de présentation de chaque produit -->

@@ -20,10 +20,9 @@ public class Equipement extends MaterielMedical {
      * @param poids Le poids de l'équipement.
      */
     public Equipement(String nom, int quantiteEnStock, String description, String fournisseur, Date dateExpiration,
-            String maintenanceSchedule, String operationalStatus, int ColiId, double poids) {
+         int ColiId, double poids) {
         super(nom, quantiteEnStock, description, fournisseur, dateExpiration, ColiId, poids);
-        this.maintenanceSchedule = maintenanceSchedule;
-        this.operationalStatus = operationalStatus;
+        
     }
 
     /**

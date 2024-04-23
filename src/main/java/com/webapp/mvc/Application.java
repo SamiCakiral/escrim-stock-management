@@ -47,7 +47,7 @@ public class Application {
         DAOMateriel daoMateriel = daoManager.getDAOMateriel();
         DAOPatient daoPatient = daoManager.getDAOPatient();
         DAOStock daoStock = daoManager.getDAOStock();
-        
+
         // Initialisation des listes de personnel, de matériel médical, de patients et de colis grace au DAO: 
         personnelList = daoPersonnel.findAllPersonnel();
         materielList = daoMateriel.findAllMateriel();
@@ -127,7 +127,7 @@ public class Application {
      * @param poids Le poids de l'équipement
      */
     public void addEquipement(String nom, int quantiteEnStock, String description, String fournisseur, Date dateExpiration, int coliId, double poids) {
-        Equipement eq = new Equipement(nom, quantiteEnStock, description, fournisseur, null, null, null, coliId, poids);
+        Equipement eq = new Equipement(nom, quantiteEnStock, description, fournisseur, dateExpiration, coliId, poids);
         addMateriel(eq);
     }    
 

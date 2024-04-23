@@ -22,7 +22,6 @@
 /Users/sami/Documents/Cours/Cours Ingé 2A/GL/escrimwebapp/src/main/java/com/webapp/mvc/mission/DAOMissionImpl.java
 /Users/sami/Documents/Cours/Cours Ingé 2A/GL/escrimwebapp/src/main/java/com/webapp/mvc/personne/personnel/DAOPersonnel.java
 /Users/sami/Documents/Cours/Cours Ingé 2A/GL/escrimwebapp/src/main/java/com/webapp/mvc/materiel/ControllerMateriel.java
-/Users/sami/Documents/Cours/Cours Ingé 2A/GL/escrimwebapp/src/main/java/com/webapp/mvc/InterfaceDAO.java
 /Users/sami/Documents/Cours/Cours Ingé 2A/GL/escrimwebapp/src/main/java/com/webapp/mvc/personne/patient/DAOPatientImpl.java
 /Users/sami/Documents/Cours/Cours Ingé 2A/GL/escrimwebapp/src/main/java/com/webapp/mvc/personne/personnel/PersonnelMedical.java
 /Users/sami/Documents/Cours/Cours Ingé 2A/GL/escrimwebapp/src/main/java/com/webapp/mvc/materiel/Traitement.java

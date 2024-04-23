@@ -40,7 +40,7 @@
                             </button>
                             <div class="collapse navbar-collapse" id="navbarNav">
                                 <ul class="navbar-nav">
-                                    <li class="nav-item"><a class="nav-link" href="/escrimwebapp/accueil">Accueil</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="/escrimwebapp/home">Accueil</a></li>
                                     <li class="nav-item"><a class="nav-link" href="/escrimwebapp/personnel">Liste du
                                             Personnel</a></li>
                                     <li class="nav-item"><a class="nav-link" href="/escrimwebapp/patient">Patient</a>
@@ -108,7 +108,7 @@
 
                                         <td>
                                             <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                    data-target="#materielModal" data-id="<%=materiel.getId()%>">
+                                                    data-target="#materielModalIP" data-id="<%=materiel.getId()%>">
                                                 Voir la fiche
                                             </button>
                                             <input type="checkbox" name="materielSelected" value="<%= materiel.getId() %>_<%= materiel.getNom() %>_<%= materiel.getQuantiteEnStock() %>">
@@ -127,7 +127,7 @@
 
                         <!-- Formulaire d'ajout de materiel -->
                         <div id="addMateriel" style="display:none;">
-                            <form action="addMateriel" method="post" class="mb-3">
+                            <form id ="formAddMateriel" action="addMateriel" method="post" class="mb-3">
                                 <div class="form-group">
                                     <label for="nom">Nom</label>
                                     <input type="text" class="form-control" id="nom" name="nom" required>
@@ -178,7 +178,7 @@
                                 
                                 
                                 <!-- Button to submit the form -->
-                                <button type="submit" class="btn btn-success">Ajouter un Membre du materiel</button>
+                                <button type="submit" class="btn btn-success">Ajouter un materiel</button>
                             </form>
                         </div>
                         
@@ -187,7 +187,7 @@
                     <!-- Bouton pour ouvrir la boîte modale -->
 
                     <!-- Boîte modale -->
-                    <div class="modal fade" id="materielModal" tabindex="-1" role="dialog"
+                    <div class="modal fade" id="materielModalIP" tabindex="-1" role="dialog"
                         aria-labelledby="materielModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -232,7 +232,7 @@
 
                             });
                             // Script pour gérer l'affichage de la boîte modale
-                            $('#materielModal').on('show.bs.modal', function (event) {
+                            $('#materielModalIP').on('show.bs.modal', function (event) {
                                 var button = $(event.relatedTarget); // Bouton qui a déclenché la boîte modale
                                 var id = button.data('id'); // Récupère l'ID du materiel
 
@@ -248,7 +248,7 @@
                     <script>
                         
                         
-                        $("form").submit(function (event) {
+                        $("#formAddMateriel").submit(function (event) {
                             var ColisString = $("#Colis").val() || "NA";
                             event.preventDefault();
                             var formData = {

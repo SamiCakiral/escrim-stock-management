@@ -1,5 +1,4 @@
 package com.webapp.mvc.personne.personnel;
-import java.util.List;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.sql.SQLException;
@@ -9,14 +8,31 @@ import java.sql.ResultSet;
 
 
 
+/**
+ * Cette classe implémente l'interface DAOPersonnel et fournit les méthodes pour interagir avec la base de données
+ * pour la gestion du personnel.
+ *
+ * @author CS
+ */
 public class DAOPersonnelImpl implements DAOPersonnel {
     private Connection connection;
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger("DAOPersonnelImpl");
 
+    /**
+     * Constructeur de la classe DAOPersonnelImpl.
+     *
+     * @param connection L'objet Connection utilisé pour interagir avec la base de données.
+     */
     public DAOPersonnelImpl(Connection connection) {
         this.connection = connection;
     }
 
+    /**
+     * Insère un objet Personnel dans la base de données.
+     *
+     * @param personnel L'objet Personnel à insérer.
+     * @return true si l'insertion a réussi, false sinon.
+     */
     @Override
     public boolean insertPersonnel(Personnel personnel) {
         String sql = "INSERT INTO personnel (last_name, first_name, affectation, metier, specialite, rang) VALUES (?, ?, ?, ?, ?, ?)";
@@ -35,6 +51,12 @@ public class DAOPersonnelImpl implements DAOPersonnel {
         }
     }
 
+    /**
+     * Met à jour un objet Personnel dans la base de données.
+     *
+     * @param personnel L'objet Personnel à mettre à jour.
+     * @return true si la mise à jour a réussi, false sinon.
+     */
     @Override
     public boolean updatePersonnel(Personnel personnel) {
         String sql = "UPDATE personnel SET last_name = ?, first_name = ?, affectation = ?, metier = ?, specialite = ?, rang = ? WHERE id = ?";
@@ -54,6 +76,12 @@ public class DAOPersonnelImpl implements DAOPersonnel {
         }
     }
 
+    /**
+     * Recherche un objet Personnel dans la base de données en utilisant son identifiant.
+     *
+     * @param id L'identifiant de l'objet Personnel à rechercher.
+     * @return L'objet Personnel correspondant à l'identifiant, ou null si aucun objet n'est trouvé.
+     */
     @Override
     public Personnel findPersonnelById(int id) {
         String sql = "SELECT * FROM personnel WHERE id = ?";
@@ -78,6 +106,11 @@ public class DAOPersonnelImpl implements DAOPersonnel {
         return null;
     }
 
+    /**
+     * Récupère tous les objets Personnel de la base de données.
+     *
+     * @return Une liste d'objets Personnel.
+     */
     @Override
     public ArrayList<Personnel> findAllPersonnel() {
         ArrayList<Personnel> personnelList = new ArrayList<>();
@@ -101,6 +134,12 @@ public class DAOPersonnelImpl implements DAOPersonnel {
         return personnelList;
     }
 
+    /**
+     * Supprime un objet Personnel de la base de données en utilisant son identifiant.
+     *
+     * @param id L'identifiant de l'objet Personnel à supprimer.
+     * @return true si la suppression a réussi, false sinon.
+     */
     @Override
     public boolean deletePersonnel(int id) {
         String sql = "DELETE FROM personnel WHERE id = ?";

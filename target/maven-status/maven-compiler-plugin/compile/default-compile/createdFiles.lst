@@ -6,7 +6,6 @@ com/webapp/mvc/stock/Commande.class
 com/webapp/mvc/personne/personnel/DAOPersonnel.class
 com/webapp/mvc/DAOManager.class
 com/webapp/mvc/personne/personnel/RangPersonnel.class
-com/webapp/mvc/InterfaceDAO.class
 com/webapp/mvc/transport/Avion.class
 com/webapp/mvc/transport/InstructionTransport.class
 com/webapp/mvc/personne/patient/Patient.class

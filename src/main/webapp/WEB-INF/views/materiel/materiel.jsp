@@ -11,9 +11,7 @@
     <h2>Détails du Materiel</h2>
     <p>ID: ${materiel.getId()}</p>
     <p>Nom: ${materiel.getNom()}</p>
-    <p>Marque: ${materiel.getMarque()}</p>
-    <p>Model: ${materiel.getModel()}</p>
-    <p>Quantite: ${materiel.getQuantite()}</p>
+    <p>Date d'expiration ${materiel.getDateExpiration()}</p>
     
 
     <button type="button">Recommander</button>

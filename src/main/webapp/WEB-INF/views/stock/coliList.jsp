@@ -105,9 +105,10 @@
         <!-- Button to add Coli -->
         <button id="btnAddColiShow" class="btn btn-primary mb-3">Ajouter un Coli</button>
 
+        <!-- MARK: Formulaire Colis -->
         <!-- Form for adding Coli -->
         <div id="addColi" style="display:none;">
-            <form action="/escrimwebapp/inventaire/coli" method="post" class="mb-3">
+            <form id = "addColiForm" method="post" class="mb-3">
                 <div class="form-group">
                     <label for="nom">Nom</label>
                     <input type="text" class="form-control" id="nom" name="nom" required>
@@ -128,7 +129,7 @@
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#materielModal">Ajouter Et Selectionner du Materiel</button>
 
                     </div>
-                    <p> Materiaux dans le colis ajoutés </p>
+                    <p> Materiaux ajoutés dans le colis ajoutés </p>
                     <table id="materialsTable" class="table" >
                         <thead>
                             <tr>
@@ -183,7 +184,7 @@
                     <!-- Le contenu de materielList.jsp sera chargé ici -->
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="addToColisButton">Ajouter Sélection au Colis</button>
+                    <button type="button" class="btn btn-primary" id="addToColisButton" data-dismiss="modal">Ajouter Sélection au Colis</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                     
                 </div>
@@ -199,6 +200,7 @@
                 window.location.href = url;
         }
 
+        
         $(document).ready(function () {
             $('#ColisModal').on('show.bs.modal', function (event) {
                                 var button = $(event.relatedTarget); // Bouton qui a déclenché la boîte modale
@@ -218,7 +220,42 @@
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
             });
+            // MARK: AJAX request to add Coli
+            $("#addColiForm").submit(function(event) {
+                event.preventDefault(); // Empêcher la soumission standard du formulaire
 
+                // Préparation des données à envoyer, incluant les IDs de matériel
+                var materielIDs = []; // Supposons que vous ayez une manière de collecter ces IDs, par exemple en lisant des éléments de données du DOM
+                $("#materialsTable tbody tr").each(function() {
+                    materielIDs.push($(this).data("material-id")); // Assurez-vous que chaque ligne de la table a un attribut data-material-id
+                });
+
+                var formData = {
+                    nom: $("#nom").val(),
+                    description: $("#description").val(),
+                    type: $("#options").val(), // Supposons que 'options' corresponde au 'type' attendu par le serveur
+                    materielIDs: materielIDs,  // Envoie un tableau d'IDs
+                    action : "addColi"
+                };
+
+                // Appel AJAX
+                $.ajax({
+                    url:  "/escrimwebapp/inventaire/coli", // Assurez-vous que cette URL est correcte et traitée par votre serveur
+                    type: "POST",
+                    data: formData,
+                    traditional: true, // Utilisez 'traditional' pour une bonne gestion des tableaux par jQuery
+                    success: function(response) {
+                        // Gérer la réponse en cas de succès
+                        console.log("Coli ajouté avec succès!");
+                        location.reload();  // Recharger la page pour afficher les changements
+                    },
+                    error: function(xhr, status, error) {
+                        // Gérer les erreurs
+                        alert("Une erreur est survenue lors de l'ajout du coli, veuillez réessayer.");
+                        console.error("Erreur AJAX : " + status + ", " + error);
+                    }
+                });
+            });
             // Show/hide add Coli form
             $('#btnAddColiShow').click(function () {
                 var addColiVisible = $('#addColi').is(':visible');
@@ -250,6 +287,7 @@
 
             // Fonction pour ajouter au colis et fermer la modale
             function addToColis() {
+                
                 var selectedMaterials = [];
                 // Parcourir chaque checkbox sélectionnée
                 $('input[type="checkbox"]:checked').each(function() {
@@ -262,13 +300,15 @@
                 });
 
                 // Fermer la modale
-                $('#materielModal').modal('toggle');
+                
+                
 
                 // Stocker les IDs en JS pour utilisation ultérieure
                 window.selectedMaterials = selectedMaterials;
 
                 // Afficher les matériaux sélectionnés dans un tableau sur la page principale
                 updateMaterialsTable(selectedMaterials);
+                $('#materielModal').modal('hide');
             }
 
             // Fonction pour mettre à jour le tableau des matériaux sur la page principale
@@ -276,7 +316,8 @@
                 var tableBody = $('#materialsTable tbody');
                 tableBody.empty(); // Vider les entrées existantes
                 materials.forEach(function(material) {
-                    var row = '<tr>' +
+                    // Ajoutez l'attribut `data-material-id` avec l'ID du matériel à chaque ligne (`<tr>`)
+                    var row = '<tr data-material-id="' + material.id + '">' +
                                 '<td>' + material.id + '</td>' +
                                 '<td>' + material.name + '</td>' +
                                 '<td>' + material.quantity + '</td>' +
@@ -284,6 +325,7 @@
                     tableBody.append(row);
                 });
             }
+
 
             // Attacher la fonction addToColis au bouton ou à l'événement approprié
             $('#addToColisButton').click(addToColis);
