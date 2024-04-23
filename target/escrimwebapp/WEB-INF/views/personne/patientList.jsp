@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page import="com.webapp.mvc.personne.patient.Patient" %>
+<%@ page import="com.webapp.mvc.personne.personnel.PersonnelMedical" %>
 <%@ page import="com.webapp.mvc.Application" %>
 
 <!DOCTYPE html>
@@ -68,7 +70,10 @@
                 <tr>
                     <th>ID</th>
                     <th>Nom</th>
-
+                    <th>Prénom</th>
+                    <th>Date de Naissance</th>
+                    <th>Medecin Attitré</th>
+                    <th>Etat d'urgence</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -78,6 +83,12 @@
                     %>
                     <tr>
                         <!-- patient.toHtmlTableRow() -->
+                        <td><%=patient.getId()%></td>
+                        <td><%=patient.getNom()%></td>
+                        <td><%=patient.getPrenom()%></td>
+                        <td><%=patient.getDob()%></td>
+                        <td><%=patient.getMedecinAttitre().getNom()%></td>
+                        <td><%=patient.isEtatUrgence()%></td>
                             <td>
                                 <button type="button" class="btn btn-primary" data-toggle="modal"
                                     data-target="#patientModal" data-id="<%=patient.getId()%>">
@@ -101,7 +112,33 @@
                     <label for="nom">Nom</label>
                     <input type="text" class="form-control" id="nom" name="nom" required>
                 </div>
-
+                <div class="form-group">
+                    <label for="prenom">Prénom</label>
+                    <input type="text" class="form-control" id="prenom" name="prenom" required>
+                </div>
+                <div class="form-group">
+                    <label for="dob">Date de Naissance</label>
+                    <input type="date" class="form-control" id="dob" name="dob" required>
+                </div>
+                <div class="form-group">
+                    <label for="medecinAttitre">Médecin Attitré</label>
+                    <select class="form-control" id="medecinAttitre" name="medecinAttitre" required>
+                        <option value="">Sélectionnez un médecin</option>
+                        <% ArrayList<PersonnelMedical> medecinList = Application.getInstance().getPersonnelMedicalList();
+                            for (PersonnelMedical medecin : medecinList) {
+                            %>
+                            <option value="<%=medecin.getId()%>"><%=medecin.getNom()%></option>
+                            <% } %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="etatUrgence">Etat d'urgence</label>
+                    <select class="form-control" id="etatUrgence" name="etatUrgence" required>
+                        <option value="">Sélectionnez l'état d'urgence</option>
+                        <option value="true">Oui</option>
+                        <option value="false">Non</option>
+                    </select>
+                </div>
                 
 
                 <button type="submit" class="btn btn-success">Ajouter un 
@@ -181,7 +218,12 @@
         $("form").submit(function (event) {
             event.preventDefault();
             var formData = {
-                
+                dob: $("#dob").val(),
+                medecinAttitreId: $("#medecinAttitre").val(),
+                etatUrgence: $("#etatUrgence").val(),
+                nom: $("#nom").val(),
+                prenom: $("#prenom").val(),
+                action:"addPatient"
             };
             $.ajax({
                 url: "",

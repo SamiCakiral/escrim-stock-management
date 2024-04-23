@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 import com.webapp.mvc.Application;
+import com.webapp.mvc.DAOManager;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -27,6 +28,12 @@ public class ControllerMateriel {
 
     private final Application app = Application.getInstance();
 
+    private DAOManager daoManager = DAOManager.getInstance();
+    private DAOMateriel daoMateriel;
+
+    public ControllerMateriel() {
+        this.daoMateriel = daoManager.getDAOMateriel();
+    }
     /**
      * Affiche la liste des matériels.
      * 

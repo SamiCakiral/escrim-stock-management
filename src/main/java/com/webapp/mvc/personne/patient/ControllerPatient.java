@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.webapp.mvc.Application;
+import com.webapp.mvc.DAOManager;
 
 import jakarta.servlet.http.HttpServletRequest;
 import com.webapp.mvc.materiel.Traitement;
@@ -31,6 +32,14 @@ public class ControllerPatient {
     private static final Logger log = Logger.getLogger(ControllerPatient.class);
 
     private final Application app = Application.getInstance();
+
+    private DAOManager daoManager = DAOManager.getInstance();
+
+    private DAOPatient daoPatient;
+
+    public ControllerPatient() {
+        this.daoPatient = daoManager.getDAOPatient();
+    }
 
     /**
      * Affiche la liste des patients.
@@ -84,9 +93,9 @@ public class ControllerPatient {
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String dobStr = request.getParameter("dob");
-        String[] traitementsIds = request.getParameterValues("traitements");
-        String[] equipementsIds = request.getParameterValues("equipements");
-        String medecinAttitreId = request.getParameter("medecinAttitre");
+        String[] traitementsIds = request.getParameterValues("traitements"); //Not Implemented
+        String[] equipementsIds = request.getParameterValues("equipements"); // Not Implemented
+        String medecinAttitreId = request.getParameter("medecinAttitreId");
         boolean etatUrgence = "on".equals(request.getParameter("etatUrgence"));
 
         // getTraitementById et getEquipementById pour récupérer les objets correspondants
@@ -94,6 +103,7 @@ public class ControllerPatient {
         // Unimplemented methods...
         // Traitement [] Traitement = app.getTraitementById(id);
         //  app.getEquipementById(id);
+        /*
         Traitement[] traitements = new Traitement[traitementsIds.length];
         for (int i = 0; i < traitementsIds.length; i++) {
             traitements[i] = app.getTraitementById(Integer.parseInt(traitementsIds[i]));
@@ -103,7 +113,9 @@ public class ControllerPatient {
         for (int i = 0; i < equipementsIds.length; i++) {
             equipements[i] = app.getEquipementById(Integer.parseInt(equipementsIds[i]));
         }
-
+ */
+        Traitement[] traitements = new Traitement[0];
+        Equipement[] equipements = new Equipement[0];
         PersonnelMedical medecinAttitre = app.getPersonnelMedicalById(Integer.parseInt(medecinAttitreId));
         // app.getPersonnelMedicalById(id);
         
@@ -114,6 +126,8 @@ public class ControllerPatient {
             log.error("Error parsing date of birth", e);
         }
         app.addPatient( nom, traitements, equipements, medecinAttitre, etatUrgence, prenom, dob);
+        Patient patient = new Patient(nom, prenom, dob, traitements, equipements, medecinAttitre, etatUrgence);
+        daoPatient.insertPatient(patient);
     }
 
     /**

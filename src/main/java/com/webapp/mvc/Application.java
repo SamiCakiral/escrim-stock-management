@@ -82,6 +82,15 @@ public class Application {
         personnelList.add(personnel);
     }
 
+    public ArrayList<PersonnelMedical> getPersonnelMedicalList() {
+        ArrayList<PersonnelMedical> personnelMedicalList = new ArrayList<>();
+        for (Personnel personnel : personnelList) {
+            if (personnel instanceof PersonnelMedical) {
+                personnelMedicalList.add((PersonnelMedical) personnel);
+            }
+        }
+        return personnelMedicalList;
+    }
     /**
      * Ajoute un médecin à la liste du personnel.
      * 

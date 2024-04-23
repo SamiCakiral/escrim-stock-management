@@ -64,7 +64,11 @@ public class Coli {
      */
     public Coli(String nom, String type, Integer[] materielMedicalIds) {
 
-        this.listMaterielMedical.addAll(Arrays.asList(materielMedicalIds)); // Si on a une liste de int ca marche pas
+        if (materielMedicalIds != null) {
+            this.listMaterielMedical = new ArrayList<>(Arrays.asList(materielMedicalIds));
+        } else {
+            this.listMaterielMedical = new ArrayList<>();
+        } // Si on a une liste de int ca marche pas
                                                                             // comme si on avait une liste de Integer
         this.type = type;
         setDimensions(type); // SET les dimensions du coli en fonction du type
