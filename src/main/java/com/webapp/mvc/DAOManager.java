@@ -5,6 +5,10 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+
+import org.springframework.stereotype.Component;
+
 import com.webapp.mvc.materiel.DAOMateriel;
 import com.webapp.mvc.mission.DAOMission;
 import com.webapp.mvc.personne.patient.DAOPatient;
@@ -22,8 +26,9 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 
 import java.sql.SQLException;
-
+@Component
 public class DAOManager {
+   
     private Connection connection;
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger("DBProject");
 
@@ -45,7 +50,8 @@ public class DAOManager {
         }
         try {
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:/D:/Prive/Code/escrim-stock-management/database.db");
+            // Changer la connexion pour le chemin de votre base de données
+            connection = DriverManager.getConnection("jdbc:sqlite:/Users/sami/Documents/Cours/Cours Ingé 2A/GL/escrimwebapp/database.db");
             createDatabase();
             log.info("Opened database successfully");
         } catch (Exception e) {
@@ -61,6 +67,7 @@ public class DAOManager {
     public static DAOManager getInstance() {
         if (instance == null) {
             instance = new DAOManager();
+            
         }
         return instance;
     }

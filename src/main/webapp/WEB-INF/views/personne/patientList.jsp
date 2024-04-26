@@ -3,7 +3,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.webapp.mvc.personne.patient.Patient" %>
 <%@ page import="com.webapp.mvc.personne.personnel.PersonnelMedical" %>
-<%@ page import="com.webapp.mvc.Application" %>
+<%@ page import="com.webapp.mvc.DAOManager" %>
 
 <!DOCTYPE html>
 <html>
@@ -78,7 +78,7 @@
                 </tr>
             </thead>
             <tbody id="tableBody">
-                <% List<Patient> patientList = Application.getInstance().getPatientList();
+                <% List<Patient> patientList = DAOManager.getInstance().getDAOPatient().findAllPatients();
                     for (Patient patient : patientList) {
                     %>
                     <tr>
@@ -124,7 +124,7 @@
                     <label for="medecinAttitre">Médecin Attitré</label>
                     <select class="form-control" id="medecinAttitre" name="medecinAttitre" required>
                         <option value="">Sélectionnez un médecin</option>
-                        <% ArrayList<PersonnelMedical> medecinList = Application.getInstance().getPersonnelMedicalList();
+                        <% PersonnelMedical[] medecinList = DAOManager.getInstance().getDAOPersonnel().findAllPersonnelMedical();
                             for (PersonnelMedical medecin : medecinList) {
                             %>
                             <option value="<%=medecin.getId()%>"><%=medecin.getNom()%></option>

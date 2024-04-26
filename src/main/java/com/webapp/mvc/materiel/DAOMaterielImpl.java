@@ -16,6 +16,7 @@ import com.webapp.mvc.materiel.Equipement;
 import java.sql.Date;
 
 public class DAOMaterielImpl implements DAOMateriel {
+
     private Connection connection;
 
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger("DAOMateriel");

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.webapp.mvc.stock.Coli" %>
-<%@ page import="com.webapp.mvc.Application" %>
+<%@ page import="com.webapp.mvc.DAOManager" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.ParseException" %>
@@ -75,7 +75,7 @@
 
             <tbody id="tableBody">
                 <% 
-                List<Coli> coliList = Application.getInstance().getColiList();
+                List<Coli> coliList = DAOManager.getInstance().getDAOStock().findAllColis();
                 for (Coli coli : coliList) {
                 %>
                 <tr>

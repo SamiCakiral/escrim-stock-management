@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ page import="java.util.List" %>
         <%@ page import="com.webapp.mvc.personne.personnel.*" %>
-            <%@ page import="com.webapp.mvc.Application" %>
+            <%@ page import="com.webapp.mvc.DAOManager" %>
 
                 <!DOCTYPE html>
                 <html>
@@ -76,7 +76,7 @@
                                 </tr>
                             </thead>
                             <tbody id="tableBody">
-                                <% List<Personnel> personnelList = Application.getInstance().getPersonnelList();
+                                <% List<Personnel> personnelList = DAOManager.getInstance().getDAOPersonnel().findAllPersonnel();
                                     for (Personnel personnel : personnelList) {
                                     %>
                                     <tr>

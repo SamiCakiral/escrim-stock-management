@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ page import="java.util.List" %>
         <%@ page import="com.webapp.mvc.materiel.*" %>
-            <%@ page import="com.webapp.mvc.Application" %>
+            <%@ page import="com.webapp.mvc.DAOManager" %>
                 <%@ page import="java.text.SimpleDateFormat" %>
                     <%@ page import="java.text.ParseException" %>
                         <%@ page import="com.webapp.mvc.stock.Coli" %>
@@ -85,7 +85,7 @@
                             <tbody id="tableBody">
                                 <% 
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                                List<MaterielMedical> materielList = Application.getInstance().getMaterielList();
+                                List<MaterielMedical> materielList = DAOManager.getInstance().getDAOMateriel().findAllMateriel();
                                 for (MaterielMedical materiel : materielList) {
                                     %>
                                     <tr>
@@ -165,7 +165,7 @@
                                     <label for="Colis">Coli</label>
                                     <select class="form-control" id="Colis" name="Colis"> <!-- Not Requiered parce que on peut avoir pas de coli au début, ou juste créé l'objet puis l'assigner a un colis -->
                                         <% 
-                                        List<Coli> coliList = Application.getInstance().getColiList();
+                                        List<Coli> coliList = DAOManager.getInstance().getDAOStock().findAllColis();
                                         for (Coli coli : coliList) {
                                             %>
                                             <option value="<%= coli.getNom() %>"><%= coli.getNom() %></option>

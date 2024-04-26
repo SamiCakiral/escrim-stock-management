@@ -1,6 +1,9 @@
 package com.webapp.mvc.personne.personnel;
 import java.sql.Connection;
 import java.util.ArrayList;
+
+import com.webapp.mvc.Application;
+
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
@@ -15,8 +18,10 @@ import java.sql.ResultSet;
  * @author CS
  */
 public class DAOPersonnelImpl implements DAOPersonnel {
+
     private Connection connection;
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger("DAOPersonnelImpl");
+    private static final Application app = Application.getInstance();
 
     /**
      * Constructeur de la classe DAOPersonnelImpl.
@@ -25,6 +30,8 @@ public class DAOPersonnelImpl implements DAOPersonnel {
      */
     public DAOPersonnelImpl(Connection connection) {
         this.connection = connection;
+       
+        
     }
 
     /**
@@ -128,6 +135,31 @@ public class DAOPersonnelImpl implements DAOPersonnel {
                 personnel.setId(rs.getInt("id"));
                 personnelList.add(personnel);
             }
+        } catch (SQLException e) {
+            log.error("Error finding all personnel: " + e.getMessage());
+        }
+        return personnelList;
+    }
+
+    /**
+     * Récupère tous les objets PersonnelMedical de la base de données.
+     *
+     * @return Une liste d'objets PersonnelMedical.
+     */
+    @Override
+    public PersonnelMedical[] findAllPersonnelMedical() {
+        PersonnelMedical[] personnelList = null;
+        String sql = "SELECT * FROM personnel WHERE metier = 'Médecin'";
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            ArrayList<PersonnelMedical> tempList = new ArrayList<>();
+            while (rs.next()) {
+            PersonnelMedical personnel = new PersonnelMedical(rs.getString("last_name"), rs.getString("first_name"), rs.getString("affectation"));
+            personnel.setId(rs.getInt("id"));
+            personnel.setSpecialite(rs.getString("specialite"));
+            tempList.add(personnel);
+            }
+            personnelList = tempList.toArray(new PersonnelMedical[tempList.size()]);
         } catch (SQLException e) {
             log.error("Error finding all personnel: " + e.getMessage());
         }

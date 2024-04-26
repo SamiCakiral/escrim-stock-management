@@ -2,6 +2,13 @@ package com.webapp.mvc.personne.patient;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+
+import com.webapp.mvc.Application;
+import com.webapp.mvc.DAOManager;
+import com.webapp.mvc.materiel.Equipement;
+import com.webapp.mvc.materiel.Traitement;
+import com.webapp.mvc.personne.personnel.PersonnelMedical;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,9 +24,11 @@ import java.sql.Statement;
  */
 public class DAOPatientImpl implements DAOPatient {
     private Connection connection;
+    private final Application app = Application.getInstance();
 
     public DAOPatientImpl(Connection connection) {
         this.connection = connection;
+        
     }
 
     @Override
@@ -72,7 +81,7 @@ public class DAOPatientImpl implements DAOPatient {
                     rs.getDate("dob"),
                     null, // Traitement et équipements ne sont pas gérés ici
                     null,
-                    null, // Simplification: Médecin attaché non récupéré ici
+                    app.getPersonnelMedicalById(rs.getInt("medecin_attitre_id")), // "app" is not defined here
                     rs.getBoolean("etat_urgence")
                 );
             }
@@ -95,7 +104,7 @@ public class DAOPatientImpl implements DAOPatient {
                     rs.getDate("dob"),
                     null, // Traitement et équipements ne sont pas gérés ici
                     null,
-                    null, // Simplification: Médecin attaché non récupéré ici
+                    (PersonnelMedical) DAOManager.getInstance().getDAOPersonnel().findPersonnelById(rs.getInt("medecin_attitre_id")), // "app" is not defined here
                     rs.getBoolean("etat_urgence")
                 ));
             }

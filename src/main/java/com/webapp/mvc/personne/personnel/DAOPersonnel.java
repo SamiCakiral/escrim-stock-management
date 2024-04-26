@@ -8,4 +8,5 @@ public interface DAOPersonnel {
     Personnel findPersonnelById(int id);
     ArrayList<Personnel> findAllPersonnel();
     boolean deletePersonnel(int id);
+    PersonnelMedical[] findAllPersonnelMedical();
 }

@@ -1,6 +1,7 @@
 package com.webapp.mvc.personne.patient;
 
 import org.apache.log4j.Logger;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +35,6 @@ public class ControllerPatient {
     private final Application app = Application.getInstance();
 
     private DAOManager daoManager = DAOManager.getInstance();
-
     private DAOPatient daoPatient;
 
     public ControllerPatient() {

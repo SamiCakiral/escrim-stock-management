@@ -4,6 +4,7 @@ import com.webapp.mvc.materiel.Equipement;
 import com.webapp.mvc.materiel.Traitement;
 import com.webapp.mvc.personne.personnel.PersonnelMedical;
 import java.util.Date;
+import org.apache.log4j.Logger;
 
 public class Patient {
     private static int idCounter = 0;
@@ -16,6 +17,7 @@ public class Patient {
     private PersonnelMedical medecinAttitre;
     private boolean etatUrgence;
 
+    private static final Logger log = Logger.getLogger(Patient.class); 
     public Patient(String nom,String prenom, Date dob, Traitement[] listeTraitements, Equipement[] equipementsUtilises,
             PersonnelMedical medecinAttitre, boolean etatUrgence) {
         this.id = idCounter++;
@@ -26,8 +28,16 @@ public class Patient {
         this.equipementsUtilises = equipementsUtilises;
         this.medecinAttitre = medecinAttitre;
         this.etatUrgence = etatUrgence;
+        log.info("Patient created: " + this.toString());
     }
 
+    @Override
+    public String toString() {
+        return "Patient [id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", dob=" + dob + ", listeTraitements="
+                + listeTraitements + ", equipementsUtilises=" + equipementsUtilises + ", medecinAttitre=" + medecinAttitre
+                + ", etatUrgence=" + etatUrgence + "]";
+    }
+    
     public void attribuerMedecin(PersonnelMedical medecin) {
         this.medecinAttitre = medecin;
     }
