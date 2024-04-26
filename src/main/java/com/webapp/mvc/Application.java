@@ -309,12 +309,9 @@ public class Application {
      *         trouvé
      */
     public Patient getPatientById(int id) {
-        for (Patient patient : patientList) {
-            if (patient.getId() == id) {
-                return patient;
-            }
-        }
-        return null;
+        DAOManager daoManager = DAOManager.getInstance();
+        return daoManager.getDAOPatient().findPatientById(id);
+
     }
 
     /**
@@ -332,7 +329,8 @@ public class Application {
      * @return La liste des patients
      */
     public ArrayList<Patient> getPatientList() {
-        return patientList;
+        DAOManager daoManager = DAOManager.getInstance();
+        return daoManager.getDAOPatient().findAllPatients();
     }
 
     /**
@@ -353,12 +351,9 @@ public class Application {
      * @return Le colis correspondant à l'ID, ou null si aucun colis n'est trouvé
      */
     public Coli getColiById(int id) {
-        for (Coli coli : coliList) {
-            if (coli.getId() == id) {
-                return coli;
-            }
-        }
-        return null;
+        DAOManager daoManager = DAOManager.getInstance();
+        return daoManager.getDAOStock().findColiById(id);
+        
     }
 
     /**
@@ -369,12 +364,9 @@ public class Application {
      *         trouvé
      */
     public Personnel getPersonnelById(int id) {
-        for (Personnel personnel : personnelList) {
-            if (personnel.getId() == id) {
-                return personnel;
-            }
-        }
-        return null;
+        DAOManager daoManager = DAOManager.getInstance();
+        return daoManager.getDAOPersonnel().findPersonnelById(id);
+
     }
 
     /**
@@ -385,12 +377,8 @@ public class Application {
      *         médical n'est trouvé
      */
     public MaterielMedical getMaterielById(int id) {
-        for (MaterielMedical materiel : materielList) {
-            if (materiel.getId() == id) {
-                return materiel;
-            }
-        }
-        return null;
+        DAOManager daoManager = DAOManager.getInstance();
+        return daoManager.getDAOMateriel().findMaterielById(id);
     }
 
     // fonction synchroBDD, exportBDD et importBDD a ajouter (synchro permet de

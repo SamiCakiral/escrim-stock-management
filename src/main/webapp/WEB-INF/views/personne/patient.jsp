@@ -8,9 +8,9 @@
 <body>
     <h1>Page type pour un Patient </h1>
     <p>
-        Patient : ${patient.nom} ${patient.prenom} <br>
-        Date de naissance : ${patient.dob} <br>
-        Medecin traitant : ${patient.getMedecinAttitre}<br>
+        Patient : ${patient.nom} ${patient.getPrenom()} <br>
+        Date de naissance : ${patient.getDob()} <br>
+        Medecin traitant : ${patient.getMedecinAttitre().getNom()}<br>
     </p>
     
 </body>

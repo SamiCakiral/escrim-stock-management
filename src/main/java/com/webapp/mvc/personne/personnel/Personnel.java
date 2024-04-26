@@ -165,6 +165,15 @@ public abstract class Personnel {
     }
 
     /**
+     * Définit l'affectation du personnel.
+     *
+     * @param affectation L'affectation à attribuer au personnel.
+     */
+    public void setAffectation(String affectation) {
+        this.affectation = affectation;
+    }
+
+    /**
      * Définit le métier du personnel.
      *
      * @param metier Le métier à attribuer au personnel.

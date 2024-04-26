@@ -14,10 +14,13 @@ import com.webapp.mvc.Application;
 import jakarta.servlet.http.HttpServletRequest;
 import com.webapp.mvc.DAOManager;
 import java.util.List;
+
 /**
  * Contrôleur pour la gestion du personnel.
- * Cette classe gère les requêtes liées au personnel et les redirige vers les méthodes appropriées.
- * Elle contient des méthodes pour afficher la liste du personnel, gérer les actions POST et afficher les détails d'un personnel spécifique.
+ * Cette classe gère les requêtes liées au personnel et les redirige vers les
+ * méthodes appropriées.
+ * Elle contient des méthodes pour afficher la liste du personnel, gérer les
+ * actions POST et afficher les détails d'un personnel spécifique.
  *
  * @author CS
  */
@@ -33,9 +36,11 @@ public class ControllerPersonnel {
     public ControllerPersonnel() {
         this.daoPersonnel = DAOManager.getInstance().getDAOPersonnel();
     }
+
     /**
      * Affiche la liste du personnel.
-     * Ajoute la liste du personnel au modèle et renvoie la vue "personne/personnelList".
+     * Ajoute la liste du personnel au modèle et renvoie la vue
+     * "personne/personnelList".
      *
      * @param model Le modèle utilisé pour transmettre les données à la vue.
      * @return Le nom de la vue à afficher.
@@ -44,7 +49,7 @@ public class ControllerPersonnel {
     public String listPersonnel(Model model) {
         // Ajouter la liste du personnel au modèle
         List<Personnel> personnelList = daoPersonnel.findAllPersonnel();
-        
+
         model.addAttribute("personnelList", personnelList);
 
         return "personne/personnelList";
@@ -52,15 +57,17 @@ public class ControllerPersonnel {
 
     /**
      * Gère les requêtes POST.
-     * Appelle la méthode d'action appropriée en fonction de la valeur de 'action' et redirige vers la liste du personnel après traitement de l'action.
+     * Appelle la méthode d'action appropriée en fonction de la valeur de 'action'
+     * et redirige vers la liste du personnel après traitement de l'action.
      *
      * @param action  La valeur de 'action' provenant de la requête.
-     * @param request L'objet HttpServletRequest contenant les informations de la requête.
+     * @param request L'objet HttpServletRequest contenant les informations de la
+     *                requête.
      * @return Le nom de la vue à afficher après redirection.
      */
     @PostMapping
     public String handlePostRequest(@RequestParam(name = "action", required = false) String action,
-                                    HttpServletRequest request) {
+            HttpServletRequest request) {
         if (action != null) {
             log.info("Action " + action);
             // Appeler la méthode action appropriée basée sur la valeur de 'action'
@@ -74,12 +81,17 @@ public class ControllerPersonnel {
      * Méthode d'action pour traiter les actions spécifiées dans la requête.
      * Implémente la logique d'action en fonction de la valeur de 'action'.
      *
-     * @param request L'objet HttpServletRequest contenant les informations de la requête.
+     * @param request L'objet HttpServletRequest contenant les informations de la
+     *                requête.
      */
     private void action(HttpServletRequest request) {
         // Implémentez la logique d'action ici
         if ("addPersonnel".equals(request.getParameter("action"))) {
             addPersonnel(request);
+        } else if ("deletePersonnel".equals(request.getParameter("action"))) {
+            delPersonnel(request);
+        } else if ("updatePersonnel".equals(request.getParameter("action"))) {
+            updatePersonnel(request);
         } else {
             log.error("Action inconnue");
         }
@@ -87,10 +99,66 @@ public class ControllerPersonnel {
     }
 
     /**
-     * Ajoute un nouveau personnel.
-     * Récupère les informations du personnel à partir de la requête et les utilise pour ajouter le personnel à l'application.
+     * Met à jour les informations d'un personnel.
+     * Récupère les informations du personnel à partir de la requête et les utilise
+     * pour mettre à jour le personnel dans l'application.
      *
-     * @param request L'objet HttpServletRequest contenant les informations de la requête.
+     * @param request L'objet HttpServletRequest contenant les informations de la
+     *                requête.
+     */
+    private void updatePersonnel(HttpServletRequest request) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String last_name = request.getParameter("last_name");
+        String first_name = request.getParameter("first_name");
+        String affectation = request.getParameter("affectation");
+        
+        Personnel personnel;
+
+        // Récupérer l'objet Personnel correspondant à l'ID spécifié
+        personnel = daoPersonnel.findPersonnelById(id);
+
+        // Mettre à jour les informations du personnel
+        personnel.setLast_name(last_name);
+        personnel.setFirst_name(first_name);
+        personnel.setAffectation(affectation);
+        
+
+        boolean isSuccess = daoPersonnel.updatePersonnel(personnel);
+        if (isSuccess) {
+            log.info("Personnel updated successfully");
+        } else {
+            log.error("Failed to update personnel");
+        }
+    }
+
+    /**
+     * Supprime un personnel.
+     * Récupère l'ID du personnel à partir de la requête et l'utilise pour supprimer
+     * le personnel de l'application.
+     *
+     * @param request L'objet HttpServletRequest contenant les informations de la
+     *                requête.
+     */
+    private void delPersonnel(HttpServletRequest request) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        
+        boolean isSuccess = daoPersonnel.deletePersonnel(id);
+        if (isSuccess) {
+            log.info("Personnel deleted successfully");
+        } else {
+            log.error("Failed to delete personnel");
+        }
+    }
+
+
+
+    /**
+     * Ajoute un nouveau personnel.
+     * Récupère les informations du personnel à partir de la requête et les utilise
+     * pour ajouter le personnel à l'application.
+     *
+     * @param request L'objet HttpServletRequest contenant les informations de la
+     *                requête.
      */
     private void addPersonnel(HttpServletRequest request) {
         String last_name = request.getParameter("last_name");
@@ -103,7 +171,7 @@ public class ControllerPersonnel {
         if (metier.equals("medical")) {
             app.addMedecin(last_name, first_name, affectation);
             personnel = new PersonnelMedical(last_name, first_name, affectation);
-            
+
         } else if (metier.equals("militaire")) {
             app.addMilitaire(last_name, first_name, affectation);
             personnel = new PersonnelMilitaire(last_name, first_name, affectation);
@@ -115,20 +183,21 @@ public class ControllerPersonnel {
         boolean isSuccess = daoPersonnel.insertPersonnel(personnel);
         if (isSuccess) {
             log.info("Personnel added successfully");
-            
+
         } else {
             log.error("Failed to add personnel");
         }
-        
+
     }
 
     /**
      * Affiche les détails d'un personnel spécifique.
-     * Récupère l'objet Personnel correspondant à l'ID spécifié et l'ajoute au modèle.
+     * Récupère l'objet Personnel correspondant à l'ID spécifié et l'ajoute au
+     * modèle.
      * Renvoie la vue "personne/personnel".
      *
-     * @param id     L'ID du personnel.
-     * @param model  Le modèle utilisé pour transmettre les données à la vue.
+     * @param id    L'ID du personnel.
+     * @param model Le modèle utilisé pour transmettre les données à la vue.
      * @return Le nom de la vue à afficher.
      */
     @GetMapping("/{id}")
