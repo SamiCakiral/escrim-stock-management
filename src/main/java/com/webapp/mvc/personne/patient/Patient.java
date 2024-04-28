@@ -1,10 +1,13 @@
 package com.webapp.mvc.personne.patient;
 
+import com.webapp.mvc.DAOManager;
 import com.webapp.mvc.materiel.Equipement;
 import com.webapp.mvc.materiel.Traitement;
+import com.webapp.mvc.personne.personnel.DAOPersonnel;
 import com.webapp.mvc.personne.personnel.PersonnelMedical;
 import java.util.Date;
 import org.apache.log4j.Logger;
+import org.hibernate.mapping.Index;
 
 public class Patient {
     private static int idCounter = 0;
@@ -37,6 +40,10 @@ public class Patient {
                 + listeTraitements + ", equipementsUtilises=" + equipementsUtilises + ", medecinAttitre=" + medecinAttitre
                 + ", etatUrgence=" + etatUrgence + "]";
     }
+    
+    public void setId(int id) {
+        this.id = id;
+    }  
     
     public void attribuerMedecin(PersonnelMedical medecin) {
         this.medecinAttitre = medecin;
@@ -95,6 +102,20 @@ public class Patient {
     }
 
     public PersonnelMedical getMedecinAttitre() {
+        try{
+            this.medecinAttitre.getId();
+        }catch(NullPointerException e){
+            log.error("Medecin attitré non défini, Medecin existe plus ou a jamais existé " + e.getMessage());
+            try{ PersonnelMedical medecinParDefault = DAOManager.getInstance().getDAOPersonnel().findAllPersonnelMedical()[0];
+                this.medecinAttitre = medecinParDefault;
+            }catch(IndexOutOfBoundsException e2){
+                log.error("Aucun medecin n'est disponible pour l'attribution, veuillez en ajouter un " + e2.getMessage());
+                this.medecinAttitre = new PersonnelMedical("Pas de Medecin", "disponible", "Aucune affectation");
+            }
+           
+
+        }
+        
         return medecinAttitre;
     }
 

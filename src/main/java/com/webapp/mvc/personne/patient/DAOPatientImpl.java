@@ -98,7 +98,8 @@ public class DAOPatientImpl implements DAOPatient {
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                patients.add(new Patient(
+                Patient patient = new Patient(
+                    
                     rs.getString("nom"),
                     rs.getString("prenom"),
                     rs.getDate("dob"),
@@ -106,7 +107,9 @@ public class DAOPatientImpl implements DAOPatient {
                     null,
                     (PersonnelMedical) DAOManager.getInstance().getDAOPersonnel().findPersonnelById(rs.getInt("medecin_attitre_id")), // "app" is not defined here
                     rs.getBoolean("etat_urgence")
-                ));
+                );
+                patient.setId(rs.getInt("id"));
+                patients.add(patient);
             }
         } catch (SQLException e) {
             e.printStackTrace();

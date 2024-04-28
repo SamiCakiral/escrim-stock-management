@@ -253,12 +253,9 @@ public class Application {
      *         médical n'est trouvé
      */
     public PersonnelMedical getPersonnelMedicalById(int id) {
-        for (Personnel personnel : personnelList) {
-            if (personnel instanceof PersonnelMedical && personnel.getId() == id) {
-                return (PersonnelMedical) personnel;
-            }
-        }
-        return null;
+        DAOManager daoManager = DAOManager.getInstance();
+        return (PersonnelMedical) daoManager.getDAOPersonnel().findPersonnelById(id);
+        
     }
 
     /**
