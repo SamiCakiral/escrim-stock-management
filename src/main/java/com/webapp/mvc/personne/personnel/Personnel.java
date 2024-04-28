@@ -50,6 +50,12 @@ public abstract class Personnel {
         this.affectation = affectation;
     }
 
+    @Override
+    public String toString() {
+        return "Personnel [id=" + id + ", last_name=" + last_name + ", first_name=" + first_name + ", affectation="
+                + affectation + ", metier=" + metier + "]";
+    }
+
     /**
      * Vérifie le planning du personnel.
      *

@@ -86,6 +86,7 @@ public class ControllerPersonnel {
      */
     private void action(HttpServletRequest request) {
         // Implémentez la logique d'action ici
+        
         if ("addPersonnel".equals(request.getParameter("action"))) {
             addPersonnel(request);
         } else if ("deletePersonnel".equals(request.getParameter("action"))) {
@@ -116,13 +117,14 @@ public class ControllerPersonnel {
 
         // Récupérer l'objet Personnel correspondant à l'ID spécifié
         personnel = daoPersonnel.findPersonnelById(id);
-
+        log.info("Personnel à mettre à jour: " + personnel);
+        log.info("Nom: " + last_name + " Prénom: " + first_name + " Affectation: " + affectation);
         // Mettre à jour les informations du personnel
-        personnel.setLast_name(last_name);
-        personnel.setFirst_name(first_name);
-        personnel.setAffectation(affectation);
+        if (last_name != "" && !last_name.equals(personnel.getLast_name())) personnel.setLast_name(last_name);
+        if (first_name !="" && !first_name.equals(personnel.getFirstName())) personnel.setFirst_name(first_name);
+        if (affectation !="" && !affectation.equals((personnel.getAffectation()) ))  personnel.setAffectation(affectation);
         
-
+        
         boolean isSuccess = daoPersonnel.updatePersonnel(personnel);
         if (isSuccess) {
             log.info("Personnel updated successfully");
