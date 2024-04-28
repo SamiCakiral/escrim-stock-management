@@ -83,12 +83,6 @@
                     <td><%= coli.getNom() %></td>
 
                     <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal"
-                            data-target="#materielModal" data-id="<%=coli.getId()%>">
-                            Voir la fiche
-                        </button>
-                    </td>
-                    <td>
                         <button type="button" class="btn btn-primary" onclick="viewColiDetails('<%= coli.getId() %>')">
                             Liste du materiel
                         </button>

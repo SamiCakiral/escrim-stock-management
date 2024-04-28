@@ -83,12 +83,15 @@ public class DAOMaterielImpl implements DAOMateriel {
                 if (type.equals("medicament")) {
                     String indications = rs.getString("indications");
                     String contreIndications = rs.getString("contre_indications");
-                    return new Medicament(nom, quantiteEnStock, description, fournisseur, dateExpiration, indications,
+                    Medicament medicament = new Medicament(nom, quantiteEnStock, description, fournisseur, dateExpiration, indications,
                             contreIndications, coliId, poids);
+                    medicament.setId(materielId);
+                    return medicament;
                 } else {
-                    
-                    return new Equipement(nom, quantiteEnStock, description, fournisseur, dateExpiration,
-                             coliId, poids);
+                    Equipement equipement= new Equipement(nom, quantiteEnStock, description, fournisseur, dateExpiration,
+                    coliId, poids);
+                    equipement.setId(materielId);
+                    return equipement;
                 }
             }
         } catch (SQLException e) {
@@ -113,17 +116,21 @@ public class DAOMaterielImpl implements DAOMateriel {
                 Date dateExpiration = rs.getDate("date_expiration");
                 int coliId = rs.getInt("id");
                 String type = rs.getString("type");
-
                 if (type.equals("medicament")) {
                     String indications = rs.getString("indications");
                     String contreIndications = rs.getString("contre_indications");
-                    materiels.add(new Medicament(nom, quantiteEnStock, description, fournisseur, dateExpiration,
-                            indications, contreIndications, coliId, poids));
+                    Medicament medicament = new Medicament(nom, quantiteEnStock, description, fournisseur, dateExpiration, indications,
+                            contreIndications, coliId, poids);
+                    medicament.setId(materielId);
+                    materiels.add(medicament);
                 } else {
+                    Equipement equipement= new Equipement(nom, quantiteEnStock, description, fournisseur, dateExpiration,
+                    coliId, poids);
+                    equipement.setId(materielId);
+                    materiels.add(equipement);
                     
-                    materiels.add(new Equipement(nom, quantiteEnStock, description, fournisseur, dateExpiration,
-                             coliId, poids));
                 }
+                
             }
             log.info("All materiels found successfully");
         } catch (SQLException e) {

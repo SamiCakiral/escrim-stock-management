@@ -99,12 +99,26 @@ public class ControllerInventaire {
         // Implémente la logique de l'action ici
         if ("addMateriel".equals(request.getParameter("action"))) {
             addItemToInventory(request);
-        } else {
+        } else if ("deleteMateriel".equals(request.getParameter("action"))) {
+            deleteItemFromInventory(request);
+        }
+        else {
             log.error("Action inconnue");
         }
         // Ajoutez d'autres actions ici
     }
 
+    /**
+     * Supprime un élément de l'inventaire.
+     * 
+     * @param request La requête HTTP.
+     */
+    private void deleteItemFromInventory(HttpServletRequest request) {
+        // Récupère les paramètres de la requête
+        int id = Integer.parseInt(request.getParameter("id"));
+        // Supprime l'élément de l'inventaire en utilisant le DAO
+        daoMateriel.deleteMateriel(id);
+    }
     /**
      * Obtient l'ID du coli à partir de son nom.
      * 
